@@ -123,6 +123,7 @@ run = () => {
   });
   const commandLine = options[process.argv[2]];
   if (commandLine) {
+    process.argv[2] = '';
     return commandLine(userData);
   }
   prompt.start();
