@@ -4,6 +4,10 @@ Sincding allows you to download the files from uc siding in an easy way
 
 Install with
 ```
+# with yarn:
+yarn global add sincding
+
+# with npm:
 npm install -g sincding
 ```
 
