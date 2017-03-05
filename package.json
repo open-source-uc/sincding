@@ -2,6 +2,10 @@
   "name": "sincding",
   "version": "1.0.0",
   "description": "API for the UC Siding",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/open-source-uc/Sincding"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
