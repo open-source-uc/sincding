@@ -12,6 +12,11 @@ And then just run
 sincding
 ```
 
+Or if you want to just update your files quickly you can run
+```
+sincding sync
+```
+
 On the first run you will be prompted for credentials
 ```json
 {
