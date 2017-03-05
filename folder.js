@@ -6,19 +6,27 @@ class Folder {
     this.name = name;
     this.url = url;
     this.parent = parent;
-    // console.log('Folder');
-    // console.log(this);
   }
 
   path() {
     return this.parent.path() + '/' + this.name;
   }
 
-  shouldDownload(path) {
-    if (fs.existsSync(path + '/' + this.path())) {
+  fullPath(path) {
+    return path + '/' + this.path();
+  }
+
+  shouldCreate(path) {
+    if (fs.existsSync(this.fullPath(path))) {
       return false;
     }
     return true;
+  }
+
+  download(path) {
+    try {
+      fs.mkdirSync(this.fullPath(path));
+    } catch (err) {}
   }
 }
 

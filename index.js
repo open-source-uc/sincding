@@ -6,14 +6,16 @@ const siding = require('./siding');
 data = () => {
   console.log("Let' update ur data");
   prompt.start();
-  const saveData = (err, result) =>
-    fs.writeFile('./data.json', JSON.stringify(result), 'utf8', run);
-  prompt.get(['username', 'password', 'path'], saveData);
+  const saveData = (err, result) => {
+    const data = Object.assign({}, result, {ignore: result.ignore.split(' ')});
+    fs.writeFile('./data.json', JSON.stringify(data), 'utf8', run);
+  };
+  prompt.get(['username', 'password', 'path', 'ignore'], saveData);
 };
 
 sync = data => {
   const session = new Session(data.username, data.password);
-  siding.coursesList(session).then(courses => {
+  siding.coursesList(session, data.ignore).then(courses => {
     console.log('Found courses');
     console.log(courses.map(c => c.path()));
     Promise.all(courses.map(course => course.scrap()))
@@ -26,21 +28,27 @@ sync = data => {
         }));
         console.log(found);
         console.log('Download:');
-        const download = courses.map(c => ({
+        const downloads = courses.map(c => ({
           name: c.name,
           folders: Object.keys(c.folders)
-            .filter(id => c.folders[id].shouldDownload(data.path))
+            .filter(id => c.folders[id].shouldCreate(data.path))
             .map(id => c.folders[id]),
           files: Object.keys(c.files)
             .filter(id => c.files[id].shouldDownload(data.path))
             .map(id => c.files[id]),
         }));
-        const downloadNumbers = download.map(downloadData => ({
-          name: downloadData.name,
-          folders: downloadData.folders.length,
-          files: downloadData.files.length,
+        const downloadNumbers = downloads.map(download => ({
+          name: download.name,
+          folders: download.folders.length,
+          files: download.files.length,
         }));
         console.log(downloadNumbers);
+        console.log('Creating missing folders...');
+        courses.forEach(course => course.createFolder(data.path));
+        // downloads.forEach(
+        //   download => download.folders.forEach(folder => folder.create())
+        // );
+        // console.log('Starting downloads, this may take a while...');
       })
       .catch(err => console.log(`Had an error\n${error}`));
   });
