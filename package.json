@@ -9,6 +9,7 @@
   "author": "negebauer",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^0.22.0",
     "prompt": "^1.0.0",
     "request": "^2.80.0"
   }

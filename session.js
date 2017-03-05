@@ -1,7 +1,4 @@
-var request = require('request');
-var request = request.defaults({jar: true});
-const jar = request.jar();
-// var request = request.defaults({jar: true});
+const request = require('./request');
 const urls = require('./urls');
 
 class Session {
@@ -19,12 +16,15 @@ class Session {
       cd: '',
     };
     console.log('Starting login');
-    request.post({url: urls.loginURL, form: body}, this.loginResponse);
-  }
-
-  loginResponse(err, httpResponse, body) {
-    // Here we should check the body to see if login succedded
-    request.get(urls.coursesPath, (e, h, b) => console.log(b));
+    return new Promise((res, rej) => request.post(
+      {url: urls.loginURL, form: body},
+      (err, http, body) => {
+        console.log('Checking login');
+        // Check login succedded
+        // rej() if not
+        res();
+      }
+    ));
   }
 
   sync(path) {

@@ -1,10 +1,11 @@
 const prompt = require('prompt');
 const Session = require('./session');
+const courses = require('./courses');
 
 sync = () => {
   const data = require('./data.json');
   const session = new Session(data.username, data.password);
-  session.login();
+  courses.coursesList(session).then(console.log);
 };
 
 options = {
