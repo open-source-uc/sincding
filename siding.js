@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const urls = require('./urls');
 const course = require('./course');
 
-class Courses {
+class Siding {
   static coursesList(session) {
     return session.login().then(() => {
       console.log('Getting courses list');
@@ -30,4 +30,4 @@ class Courses {
   }
 }
 
-module.exports = Courses;
+module.exports = Siding;

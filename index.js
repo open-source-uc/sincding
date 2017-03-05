@@ -1,7 +1,7 @@
 const prompt = require('prompt');
 const fs = require('fs');
 const Session = require('./session');
-const courses = require('./courses');
+const siding = require('./siding');
 
 data = () => {
   console.log("Let' update ur data");
@@ -13,7 +13,7 @@ data = () => {
 
 sync = data => {
   const session = new Session(data.username, data.password);
-  courses.coursesList(session).then(courses => {
+  siding.coursesList(session).then(courses => {
     console.log('Found courses');
     console.log(courses);
     Promise.all(courses.map(course => course.sync(data.path)))
