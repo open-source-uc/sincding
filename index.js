@@ -19,12 +19,28 @@ sync = data => {
     Promise.all(courses.map(course => course.scrap()))
       .then(courses => {
         console.log('Found:');
-        const numbers = courses.map(c => ({
+        const found = courses.map(c => ({
           name: c.name,
           folders: Object.keys(c.folders).length,
           files: Object.keys(c.files).length,
         }));
-        console.log(numbers);
+        console.log(found);
+        console.log('Download:');
+        const download = courses.map(c => ({
+          name: c.name,
+          folders: Object.keys(c.folders)
+            .filter(id => c.folders[id].shouldDownload(data.path))
+            .map(id => c.folders[id]),
+          files: Object.keys(c.files)
+            .filter(id => c.files[id].shouldDownload(data.path))
+            .map(id => c.files[id]),
+        }));
+        const downloadNumbers = download.map(downloadData => ({
+          name: downloadData.name,
+          folders: downloadData.folders.length,
+          files: downloadData.files.length,
+        }));
+        console.log(downloadNumbers);
       })
       .catch(err => console.log(`Had an error\n${error}`));
   });

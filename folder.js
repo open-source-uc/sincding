@@ -16,9 +16,9 @@ class Folder {
 
   shouldDownload(path) {
     if (fs.existsSync(path + '/' + this.path())) {
-      return console.log('Shouldnt download');
+      return false;
     }
-    console.log('SHOUDL DOWNLOAD');
+    return true;
   }
 }
 
