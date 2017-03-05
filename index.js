@@ -3,14 +3,34 @@ const fs = require('fs');
 const Session = require('./session');
 const siding = require('./siding');
 
+prompt.colors = false;
+
 data = () => {
   console.log("Let' update ur data");
+  const schema = {
+    properties: {
+      username: {
+        pattern: /^[a-zA-Z\d]+$/,
+        message: 'Username without @uc',
+        required: true,
+      },
+      password: {
+        required: true,
+        hidden: true,
+        replace: '*',
+      },
+      path: {
+        required: true,
+      },
+      ignore: {},
+    },
+  };
   prompt.start();
   const saveData = (err, result) => {
     const data = Object.assign({}, result, {ignore: result.ignore.split(' ')});
     fs.writeFile('./data.json', JSON.stringify(data), 'utf8', run);
   };
-  prompt.get(['username', 'password', 'path', 'ignore'], saveData);
+  prompt.get(schema, saveData);
 };
 
 sync = data => {
@@ -57,11 +77,13 @@ sync = data => {
 options = {
   data: data,
   sync: sync,
+  exit: () => {},
 };
 
 optionsDescriptions = {
   data: 'Update your data',
   sync: 'Download everythang',
+  exit: 'Exit',
 };
 
 run = () => {
@@ -78,6 +100,7 @@ run = () => {
   console.log('Ur data');
   console.log(`user: ${userData.username}`);
   console.log(`path: ${userData.path}`);
+  console.log(`ignore: ${userData.ignore}`);
   console.log('Options');
   Object.keys(options).forEach(key => {
     console.log(`${key}: ${optionsDescriptions[key]}`);
@@ -87,7 +110,14 @@ run = () => {
     return commandLine(userData);
   }
   prompt.start();
-  runCommand = (err, result) => options[result.command](userData);
+  runCommand = (err, result) => {
+    const command = options[result.command];
+    if (!command) {
+      console.log('Not a valid command');
+      return run();
+    }
+    options[result.command](userData);
+  };
   prompt.get(['command'], runCommand);
 };
 
