@@ -1,5 +1,6 @@
 data.json
 *.log
+tmp/
 
 # Node gitignore
 # https://github.com/github/gitignore/blob/master/Node.gitignore
