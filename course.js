@@ -1,5 +1,6 @@
-const request = require('./request');
 const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
+const request = require('./request');
 const urls = require('./urls');
 const course = require('./course');
 const folder = require('./folder');
@@ -19,7 +20,7 @@ class Course {
     this.folders = {};
     this.files = {};
     return new Promise((res, rej) => {
-      request(this.url, (err, http, body) => {
+      request({url: this.url, encoding: null}, (err, http, body) => {
         console.log(`Parsing ${this.path()}`);
         const newFolders = this.searchFoldersAndFiles(body, this);
         if (newFolders.length === 0) {
@@ -35,7 +36,7 @@ class Course {
 
   scrapFolder(folder) {
     return new Promise((res, rej) => {
-      request(folder.url, (err, http, body) => {
+      request({url: folder.url, encoding: null}, (err, http, body) => {
         console.log(`Parsing ${folder.name}`);
         const newFolders = this.searchFoldersAndFiles(body, folder);
         if (newFolders.length === 0) {
@@ -50,7 +51,7 @@ class Course {
   }
 
   searchFoldersAndFiles(body, parent) {
-    const $ = cheerio.load(body);
+    const $ = cheerio.load(iconv.decode(body, 'ISO-8859-1'));
     const newFolders = [];
     $('a').each((i, l) => {
       const link = $(l).attr('href');

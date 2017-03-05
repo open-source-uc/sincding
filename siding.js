@@ -1,5 +1,6 @@
-const request = require('./request');
 const cheerio = require('cheerio');
+const iconv = require('iconv-lite');
+const request = require('./request');
 const urls = require('./urls');
 const course = require('./course');
 
@@ -8,10 +9,10 @@ class Siding {
     return session.login().then(() => {
       console.log('Getting courses list');
       return new Promise((res, rej) => {
-        request(urls.coursesURL, (err, http, body) => {
+        request({url: urls.coursesURL, encoding: null}, (err, http, body) => {
           console.log('Parsing courses list');
           const courses = [];
-          const $ = cheerio.load(body);
+          const $ = cheerio.load(iconv.decode(body, 'ISO-8859-1'));
           $('a').each((i, l) => {
             const link = $(l).attr('href');
             if (link.indexOf('id_curso_ic') === -1) {
