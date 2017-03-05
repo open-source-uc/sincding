@@ -65,10 +65,8 @@ sync = data => {
         console.log(downloadNumbers);
         console.log('Creating missing folders...');
         courses.forEach(course => course.createFolder(data.path));
-        // downloads.forEach(
-        //   download => download.folders.forEach(folder => folder.create())
-        // );
-        // console.log('Starting downloads, this may take a while...');
+        downloads.forEach(d => d.folders.forEach(f => f.create(data.path)));
+        console.log('Starting downloads, this may take a while...');
       })
       .catch(err => console.log(`Had an error\n${error}`));
   });

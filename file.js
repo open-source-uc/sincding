@@ -10,8 +10,8 @@ class File {
     // console.log(this.path());
   }
 
-  path() {
-    return this.parent.path() + '/' + this.name;
+  path(path) {
+    return this.parent.path(path) + '/' + this.name;
   }
 
   shouldDownload(path) {

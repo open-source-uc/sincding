@@ -8,24 +8,22 @@ class Folder {
     this.parent = parent;
   }
 
-  path() {
-    return this.parent.path() + '/' + this.name;
-  }
-
-  fullPath(path) {
-    return path + '/' + this.path();
+  path(path) {
+    return this.parent.path(path) + '/' + this.name;
   }
 
   shouldCreate(path) {
-    if (fs.existsSync(this.fullPath(path))) {
+    if (fs.existsSync(this.path(path))) {
       return false;
     }
     return true;
   }
 
-  download(path) {
+  create(path) {
     try {
-      fs.mkdirSync(this.fullPath(path));
+      console.log('Trying to create');
+      console.log(this.path(path));
+      fs.mkdirSync(this.path(path));
     } catch (err) {}
   }
 }

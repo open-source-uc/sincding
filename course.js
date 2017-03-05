@@ -93,17 +93,14 @@ class Course {
     return newFolders;
   }
 
-  path() {
-    return this.acronym + ' ' + this.name;
-  }
-
-  fullPath(path) {
-    return path + '/' + this.path();
+  path(path = '') {
+    const parentPath = (path !== '' && path + '/') || '';
+    return parentPath + this.acronym + ' ' + this.name;
   }
 
   createFolder(path) {
     try {
-      fs.mkdirSync(this.fullPath(path));
+      fs.mkdirSync(this.path(path));
     } catch (err) {}
   }
 }
