@@ -67,6 +67,11 @@ sync = data => {
         courses.forEach(course => course.createFolder(data.path));
         downloads.forEach(d => d.folders.forEach(f => f.create(data.path)));
         console.log('Starting downloads, this may take a while...');
+        const files = downloads
+          .map(download => download.files)
+          .reduce((total, arr) => total.concat(arr));
+        Promise.all(files.map(file => file.download(data.path)))
+          .then(() => console.log('Finished downloading!'));
       })
       .catch(err => console.log(`Had an error\n${error}`));
   });

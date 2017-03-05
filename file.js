@@ -1,4 +1,5 @@
 const fs = require('fs');
+const request = require('./request');
 
 class File {
   constructor(id, name, url, parent) {
@@ -19,6 +20,18 @@ class File {
       return false;
     }
     return true;
+  }
+
+  download(path) {
+    return new Promise((res, rej) => {
+      request(this.url)
+        .on('response', response => {
+          console.log('Downloaded file');
+          console.log(this.parent.name + '/' + this.name);
+          res();
+        })
+        .pipe(fs.createWriteStream(this.path(path)));
+    });
   }
 }
 

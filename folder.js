@@ -21,8 +21,8 @@ class Folder {
 
   create(path) {
     try {
-      console.log('Trying to create');
-      console.log(this.path(path));
+      console.log('Creating folder');
+      console.log(this.parent.name + '/' + this.name);
       fs.mkdirSync(this.path(path));
     } catch (err) {}
   }
