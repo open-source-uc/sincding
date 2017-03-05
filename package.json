@@ -4,7 +4,7 @@
   "description": "API for the UC Siding",
   "repository": {
     "type": "git",
-    "url": "https://github.com/open-source-uc/Sincding"
+    "url": "https://github.com/open-source-uc/sincding"
   },
   "main": "index.js",
   "scripts": {
