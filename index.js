@@ -2,10 +2,13 @@
 
 const prompt = require('prompt');
 const fs = require('fs');
+const os = require('os');
 const Session = require('./session');
 const siding = require('./siding');
 
 prompt.colors = false;
+
+const userDataFolder = `${os.homedir()}/.sincding`;
 
 data = () => {
   console.log("Let' update ur data");
@@ -30,7 +33,15 @@ data = () => {
   prompt.start();
   const saveData = (err, result) => {
     const data = Object.assign({}, result, {ignore: result.ignore.split(' ')});
-    fs.writeFile('./data.json', JSON.stringify(data), 'utf8', run);
+    if (!fs.existsSync(`${userDataFolder}`)) {
+      fs.mkdirSync(`${userDataFolder}`);
+    }
+    fs.writeFile(
+      `${userDataFolder}/data.json`,
+      JSON.stringify(data),
+      'utf8',
+      run
+    );
   };
   prompt.get(schema, saveData);
 };
@@ -94,7 +105,7 @@ optionsDescriptions = {
 run = () => {
   let userData = null;
   try {
-    userData = require('./data.json');
+    userData = require(`${userDataFolder}/data.json`);
   } catch (err) {
     data();
     return;
