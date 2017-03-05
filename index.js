@@ -16,10 +16,15 @@ sync = data => {
   siding.coursesList(session).then(courses => {
     console.log('Found courses');
     console.log(courses.map(c => c.path()));
-    Promise.all(courses.map(course => course.sync()))
+    Promise.all(courses.map(course => course.scrap()))
       .then(courses => {
-        console.log('Synced stuff');
-        console.log(courses);
+        console.log('Found:');
+        const numbers = courses.map(c => ({
+          name: c.name,
+          folders: Object.keys(c.folders).length,
+          files: Object.keys(c.files).length,
+        }));
+        console.log(numbers);
       })
       .catch(err => console.log(`Had an error\n${error}`));
   });

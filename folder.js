@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 class Folder {
   constructor(id, name, url, parent) {
     this.id = id;
@@ -10,6 +12,13 @@ class Folder {
 
   path() {
     return this.parent.path() + '/' + this.name;
+  }
+
+  shouldDownload(path) {
+    if (fs.existsSync(path + '/' + this.path())) {
+      return console.log('Shouldnt download');
+    }
+    console.log('SHOUDL DOWNLOAD');
   }
 }
 

@@ -15,17 +15,17 @@ class Course {
     this.files = {};
   }
 
-  sync() {
+  scrap() {
     this.folders = {};
     this.files = {};
     return new Promise((res, rej) => {
       request(this.url, (err, http, body) => {
-        console.log(`Parsing ${this.path()} files`);
+        console.log(`Parsing ${this.path()}`);
         const newFolders = this.searchFoldersAndFiles(body, this);
-        if (newFolders.lenght === 0) {
+        if (newFolders.length === 0) {
           return res(this);
         }
-        Promise.all(newFolders.map(folder => this.syncFolder(folder)))
+        Promise.all(newFolders.map(folder => this.scrapFolder(folder)))
           .then(() => {
             res(this);
           });
@@ -33,15 +33,15 @@ class Course {
     });
   }
 
-  syncFolder(folder) {
+  scrapFolder(folder) {
     return new Promise((res, rej) => {
       request(folder.url, (err, http, body) => {
-        console.log(`Parsing ${folder.path()} files`);
+        console.log(`Parsing ${folder.name}`);
         const newFolders = this.searchFoldersAndFiles(body, folder);
-        if (newFolders.lenght === 0) {
+        if (newFolders.length === 0) {
           return res();
         }
-        Promise.all(newFolders.map(folder => this.syncFolder(folder)))
+        Promise.all(newFolders.map(folder => this.scrapFolder(folder)))
           .then(() => {
             res();
           });
