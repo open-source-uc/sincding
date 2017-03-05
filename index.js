@@ -11,10 +11,15 @@ data = () => {
   prompt.get(['username', 'password', 'path'], saveData);
 };
 
-sync = () => {
-  const data = readData();
+sync = data => {
   const session = new Session(data.username, data.password);
-  courses.coursesList(session).then(console.log);
+  courses.coursesList(session).then(courses => {
+    console.log('Found courses');
+    console.log(courses);
+    Promise.all(courses.map(course => course.sync(data.path)))
+      .then(() => console.log('Synced stuff'))
+      .catch(err => console.log(`Had an error\n${error}`));
+  });
 };
 
 options = {
@@ -45,6 +50,10 @@ run = () => {
   Object.keys(options).forEach(key => {
     console.log(`${key}: ${optionsDescriptions[key]}`);
   });
+  const commandLine = options[process.argv[2]];
+  if (commandLine) {
+    return commandLine(userData);
+  }
   prompt.start();
   runCommand = (err, result) => options[result.command](userData);
   prompt.get(['command'], runCommand);

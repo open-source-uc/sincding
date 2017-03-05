@@ -8,7 +8,7 @@ class Courses {
     return session.login().then(() => {
       console.log('Getting courses list');
       return new Promise((res, rej) => {
-        request(urls.coursesURL, (err, httpResponse, body) => {
+        request(urls.coursesURL, (err, http, body) => {
           console.log('Parsing courses list');
           const courses = [];
           const $ = cheerio.load(body);
@@ -27,11 +27,6 @@ class Courses {
         });
       });
     });
-  }
-
-  static test() {
-    console.log('couress list');
-    Courses.coursesList();
   }
 }
 
