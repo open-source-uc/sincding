@@ -15,9 +15,12 @@ sync = data => {
   const session = new Session(data.username, data.password);
   siding.coursesList(session).then(courses => {
     console.log('Found courses');
-    console.log(courses);
-    Promise.all(courses.map(course => course.sync(data.path)))
-      .then(() => console.log('Synced stuff'))
+    console.log(courses.map(c => c.path()));
+    Promise.all(courses.map(course => course.sync()))
+      .then(courses => {
+        console.log('Synced stuff');
+        console.log(courses);
+      })
       .catch(err => console.log(`Had an error\n${error}`));
   });
 };
