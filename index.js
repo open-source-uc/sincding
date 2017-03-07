@@ -3,6 +3,8 @@
 const prompt = require('prompt');
 const fs = require('fs');
 const os = require('os');
+const updateNotifier = require('update-notifier');
+const pkg = require('./package.json');
 const Session = require('./session');
 const siding = require('./siding');
 
@@ -138,5 +140,6 @@ run = () => {
   prompt.get(['command'], runCommand);
 };
 
+updateNotifier({pkg}).notify();
 console.log('Welcome to sincding!');
 run();

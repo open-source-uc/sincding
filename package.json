@@ -15,7 +15,8 @@
     "cheerio": "^0.22.0",
     "iconv-lite": "^0.4.15",
     "prompt": "^1.0.0",
-    "request": "^2.80.0"
+    "request": "^2.80.0",
+    "update-notifier": "^2.1.0"
   },
   "bin": {
     "sincding": "index.js"
