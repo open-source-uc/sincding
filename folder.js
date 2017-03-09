@@ -21,10 +21,17 @@ class Folder {
 
   create(path) {
     try {
-      console.log('Creating folder');
+      console.log(`${this.parentAcronym()} Creating folder`);
       console.log(this.parent.name + '/' + this.name);
       fs.mkdirSync(this.path(path));
     } catch (err) {}
+  }
+
+  parentAcronym() {
+    if (!this.parent.acronym) {
+      return this.parent.parentAcronym();
+    }
+    return this.parent.acronym;
   }
 }
 

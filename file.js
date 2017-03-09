@@ -26,12 +26,16 @@ class File {
     return new Promise((res, rej) => {
       request(this.url)
         .on('response', response => {
-          console.log('Downloaded file');
+          console.log(`${this.parentAcronym()} Downloaded file`);
           console.log(this.parent.name + '/' + this.name);
           res();
         })
         .pipe(fs.createWriteStream(this.path(path)));
     });
+  }
+
+  parentAcronym() {
+    return this.parent.parentAcronym();
   }
 }
 
