@@ -12,7 +12,7 @@ class Course {
   constructor(id, acronym, name) {
     this.id = id;
     this.acronym = acronym;
-    this.name = name.replace(/:/g, '');
+    this.name = name;
     this.url = urls.courseURL(id);
     this.folders = {};
     this.files = {};
