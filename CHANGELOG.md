@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.7] - 2016-03-11
 ### Fixed
-- Fix restricted characters in course, folder and file name [#1] by [@aaossa]
+- Fix restricted characters in course, folder and file name [#1](https://github.com/open-source-uc/sincding/#1) [@aaossa]
 
 ## [1.0.6] - 2016-03-07
 ### Added
@@ -25,14 +25,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [1.0.7]: https://github.com/open-source-uc/sincding/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/open-source-uc/sincding/compare/v1.0.0...v1.0.6
 
-[//]: # (Links)
-[#1]:
-github.com/open-source-uc/sincding/#1
+## Contributors
+[@negebauer]
+[@negebauer]:https://github.com/negebauer
+[@mrpatiwi]
+[@mrpatiwi]:https://github.com/mrpatiwi
+[@aaossa]
+[@aaossa]:https://github.com/aaossa
 
-[//]: # (Contributors)
-[@negebauer]:
-github.com/negebauer
-[@mrpatiwi]:
-github.com/negebauer
-[@aaossa]:
-github.com/aaossa
+## Contributing
+
+- Add you github profile link to the Contributors section
+- Add a new line to the Unreleased section with a description of what you did and reference the PR you opened and your profile. Make sure to add it to the corresponding subsection
