@@ -2,6 +2,8 @@
 
 Sincding allows you to download the files from uc siding in an easy way
 
+You must have [node](https://nodejs.org) installed to use it
+
 Install with
 ```
 # with yarn:
