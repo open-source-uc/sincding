@@ -6,6 +6,7 @@ const urls = require('./urls');
 const course = require('./course');
 const folder = require('./folder');
 const file = require('./file');
+const format = require('./format');
 
 class Course {
   constructor(id, acronym, name) {
@@ -95,7 +96,7 @@ class Course {
 
   path(path = '') {
     const parentPath = (path !== '' && path + '/') || '';
-    return parentPath + this.acronym + ' ' + this.name;
+    return parentPath + this.acronym + ' ' + format.nameCleaned(this.name);
   }
 
   createFolder(path) {

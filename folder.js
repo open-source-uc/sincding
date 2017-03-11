@@ -1,4 +1,5 @@
 const fs = require('fs');
+const format = require('./format');
 
 class Folder {
   constructor(id, name, url, parent) {
@@ -9,7 +10,7 @@ class Folder {
   }
 
   path(path) {
-    return this.parent.path(path) + '/' + this.name;
+    return this.parent.path(path) + '/' + format.nameCleaned(this.name);
   }
 
   shouldCreate(path) {
