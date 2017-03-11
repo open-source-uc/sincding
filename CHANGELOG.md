@@ -28,4 +28,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: # (Links)
 
 [//]: # (Contributors)
-[@aaossa](github.com/aaossa)
+[@aaossa]:
+github.com/aaossa
