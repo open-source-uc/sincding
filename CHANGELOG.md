@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.7] - 2016-03-11
 ### Fixed
-- Fix restricted characters in course, folder and file name PR #1 @aaossa.
+- Fix restricted characters in course, folder and file name PR #1 [@aaossa].
 
 ## [1.0.6] - 2016-03-07
 ### Added
@@ -24,3 +24,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.0.7...HEAD
 [1.0.7]: https://github.com/open-source-uc/sincding/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/open-source-uc/sincding/compare/v1.0.0...v1.0.6
+
+[//]: # (Links)
+
+[//]: # (Contributors)
+[@aaossa](github.com/aaossa)
