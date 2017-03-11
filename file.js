@@ -1,5 +1,6 @@
 const fs = require('fs');
 const request = require('./request');
+const format = require('./format');
 
 class File {
   constructor(id, name, url, parent) {
@@ -12,7 +13,7 @@ class File {
   }
 
   path(path) {
-    return this.parent.path(path) + '/' + this.name;
+    return this.parent.path(path) + '/' + format.nameCleaned(this.name);
   }
 
   shouldDownload(path) {
