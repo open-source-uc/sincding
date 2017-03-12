@@ -1,5 +1,7 @@
 # Sincding
 
+[![npm version](https://badge.fury.io/js/sincding.svg)](https://badge.fury.io/js/sincding)
+
 Sincding allows you to download the files from uc siding in an easy way
 
 You must have [node](https://nodejs.org) installed to use it
