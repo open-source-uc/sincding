@@ -42,7 +42,7 @@ data = () => {
       `${userDataFolder}/data.json`,
       JSON.stringify(data),
       'utf8',
-      run
+      run,
     );
   };
   prompt.get(schema, saveData);
@@ -85,8 +85,8 @@ sync = data => {
         const files = downloads
           .map(download => download.files)
           .reduce((total, arr) => total.concat(arr));
-        Promise.all(files.map(file => file.download(data.path)))
-          .then(() => console.log('Finished downloading!'));
+        Promise.all(files.map(file => file.download(data.path))).then(() =>
+          console.log('Finished downloading!'));
       })
       .catch(err => console.log(`Had an error\n${error}`));
   });

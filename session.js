@@ -16,15 +16,13 @@ class Session {
       cd: '',
     };
     console.log('Starting login');
-    return new Promise((res, rej) => request.post(
-      {url: urls.loginURL, form: body},
-      (err, http, body) => {
+    return new Promise((res, rej) =>
+      request.post({url: urls.loginURL, form: body}, (err, http, body) => {
         console.log('Checking login');
         // Check login succedded
         // rej() if not
         res();
-      }
-    ));
+      }));
   }
 
   sync(path) {

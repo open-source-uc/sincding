@@ -31,10 +31,11 @@ class Course {
         if (newFolders.length === 0) {
           return res(this);
         }
-        Promise.all(newFolders.map(folder => this.scrapFolder(folder)))
-          .then(() => {
-            res(this);
-          });
+        Promise.all(
+          newFolders.map(folder => this.scrapFolder(folder)),
+        ).then(() => {
+          res(this);
+        });
       });
     });
   }
@@ -50,10 +51,11 @@ class Course {
         if (newFolders.length === 0) {
           return res();
         }
-        Promise.all(newFolders.map(folder => this.scrapFolder(folder)))
-          .then(() => {
-            res();
-          });
+        Promise.all(
+          newFolders.map(folder => this.scrapFolder(folder)),
+        ).then(() => {
+          res();
+        });
       });
     });
   }
@@ -73,7 +75,7 @@ class Course {
           linkId,
           name,
           urls.courseFolderURL(link),
-          parent
+          parent,
         );
         newFolders.push(newFolder);
         this.folders[linkId] = newFolder;
@@ -86,7 +88,7 @@ class Course {
           linkId,
           name,
           urls.courseFileURL(link),
-          parent
+          parent,
         );
         this.files[linkId] = newFile;
       }
