@@ -3,7 +3,6 @@ const iconv = require('iconv-lite');
 const fs = require('fs');
 const request = require('./request');
 const urls = require('./urls');
-const course = require('./course');
 const folder = require('./folder');
 const file = require('./file');
 const format = require('./format');
