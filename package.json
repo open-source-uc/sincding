@@ -1,7 +1,7 @@
 {
   "name": "sincding",
   "version": "1.0.7",
-  "description": "API for the UC Siding",
+  "description": "CLI to download Siding files",
   "repository": {
     "type": "git",
     "url": "https://github.com/open-source-uc/sincding"
