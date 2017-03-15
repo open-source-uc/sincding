@@ -1,7 +1,7 @@
 {
   "name": "sincding",
   "version": "1.0.7",
-  "description": "CLI to download Siding files",
+    "description": "CLI to download Siding files",
   "repository": {
     "type": "git",
     "url": "https://github.com/open-source-uc/sincding"
@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Nicolas Gebauer <negebauer@uc.c;> (http://negebauer.github.io)",
+  "author": {"name": "Nicolas Gebauer", "mail": "negebauer@uc.cl", "url": "http://negebauer.github.io"},
   "dependencies": {
     "cheerio": "^0.22.0",
     "iconv-lite": "^0.4.15",
