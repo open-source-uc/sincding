@@ -40,3 +40,33 @@ The credentials are stored in your Home directory on `.sincding/data.json`
 
 Let's see it in action  
 ![demo](https://github.com/open-source-uc/sincding/blob/assets/demo.gif)
+
+***
+
+## Development
+
+Clone the repo
+```
+git clone https://github.com/open-source-uc/sincding.git
+```
+
+Install dependencies
+```
+# with yarn:
+yarn
+
+# with npm:
+npm i
+```
+
+To test you have two options
+```
+# run from project folder
+node index.js
+
+# or link it to run it from everywhere
+npm link
+sincding
+```
+
+Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/dev/CONTRIBUTING.md)
