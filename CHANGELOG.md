@@ -26,12 +26,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [1.0.6]: https://github.com/open-source-uc/sincding/compare/v1.0.0...v1.0.6
 
 ## Contributors
-[@negebauer]
+
 [@negebauer]:https://github.com/negebauer
-[@mrpatiwi]
+[@negebauer]
+
 [@mrpatiwi]:https://github.com/mrpatiwi
-[@aaossa]
+[@mrpatiwi]
+
 [@aaossa]:https://github.com/aaossa
+[@aaossa]
 
 ## Contributing
 
