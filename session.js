@@ -1,10 +1,10 @@
-const request = require('./request');
-const urls = require('./urls');
+const request = require('./request')
+const urls = require('./urls')
 
 class Session {
   constructor(username, password) {
-    this.username = username;
-    this.password = password;
+    this.username = username
+    this.password = password
   }
 
   login() {
@@ -14,15 +14,15 @@ class Session {
       sw: '',
       sh: '',
       cd: '',
-    };
-    console.log('Starting login');
+    }
+    console.log('Starting login')
     return new Promise((res, rej) =>
       request.post({url: urls.loginURL, form: body}, (err, http, body) => {
-        console.log('Checking login');
+        console.log('Checking login')
         // Check login succedded
         // rej() if not
-        res();
-      }));
+        res()
+      }))
   }
 
   sync(path) {
@@ -31,4 +31,4 @@ class Session {
   }
 }
 
-module.exports = Session;
+module.exports = Session

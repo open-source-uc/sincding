@@ -8,6 +8,6 @@ const urls = {
   courseFolderURL: link =>
     `https://intrawww.ing.puc.cl/siding/dirdes/ingcursos/cursos/${link}`,
   courseFileURL: link => `https://intrawww.ing.puc.cl${link}`,
-};
+}
 
-module.exports = urls;
+module.exports = urls
