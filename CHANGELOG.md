@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: # (Fixed)
 [//]: # (Security)
 
+## [1.0.9] - 2016-03-16
+### Added
+- Show version [@negebauer]
+
 ## [1.0.8] - 2016-03-16
 ### Changed
 - Only create file after download is finished [@negebauer]
@@ -25,7 +29,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Main app [@negebauer]
 - Yarn support [@mrpatiwi]
 
-[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.0.8...HEAD
+[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.0.9...HEAD
+[1.0.9]: https://github.com/open-source-uc/sincding/compare/v1.0.8...v1.0.9
 [1.0.8]: https://github.com/open-source-uc/sincding/compare/v1.0.7...v1.0.8
 [1.0.7]: https://github.com/open-source-uc/sincding/compare/v1.0.6...v1.0.7
 [1.0.6]: https://github.com/open-source-uc/sincding/compare/v1.0.0...v1.0.6

@@ -139,4 +139,5 @@ run = () => {
 
 updateNotifier({pkg}).notify()
 console.log('Welcome to sincding!')
+console.log(`Version ${pkg.version}`)
 run()
