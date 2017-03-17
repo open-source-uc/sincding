@@ -9,7 +9,7 @@ class Siding {
     return session.login().then(() => {
       console.log('Getting courses list')
       return new Promise((res, rej) => {
-        request({url: urls.coursesURL, encoding: null,}, (err, http, body) => {
+        request({url: urls.coursesURL, encoding: null}, (err, http, body) => {
           if (err) {
             rej(err)
           }
