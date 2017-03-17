@@ -31,7 +31,7 @@ class Course {
           return res(this)
         }
         Promise.all(
-          newFolders.map(folder => this.scrapFolder(folder)),
+          newFolders.map(folder => this.scrapFolder(folder))
         ).then(() => {
           res(this)
         })
@@ -51,7 +51,7 @@ class Course {
           return res()
         }
         Promise.all(
-          newFolders.map(folder => this.scrapFolder(folder)),
+          newFolders.map(folder => this.scrapFolder(folder))
         ).then(() => {
           res()
         })
@@ -74,7 +74,7 @@ class Course {
           linkId,
           name,
           urls.courseFolderURL(link),
-          parent,
+          parent
         )
         newFolders.push(newFolder)
         this.folders[linkId] = newFolder
@@ -87,7 +87,7 @@ class Course {
           linkId,
           name,
           urls.courseFileURL(link),
-          parent,
+          parent
         )
         this.files[linkId] = newFile
       }

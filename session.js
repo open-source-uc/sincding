@@ -17,7 +17,7 @@ class Session {
     }
     console.log('Starting login')
     return new Promise((res, rej) =>
-      request.post({url: urls.loginURL, form: body}, (err, http, body) => {
+      request.post({url: urls.loginURL, form: body,}, (err, http, body) => {
         console.log('Checking login')
         // Check login succedded
         // rej() if not

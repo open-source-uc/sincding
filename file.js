@@ -25,13 +25,12 @@ class File {
 
   download(path) {
     return new Promise((res, rej) => {
-      request(this.url)
-        .on('response', response => {
-          console.log(`${this.parentAcronym()} Downloaded file`)
-          console.log(this.parent.name + '/' + this.name)
-          res()
-        })
-        .pipe(fs.createWriteStream(this.path(path)))
+      request(this.url).on('response', response => {
+        console.log(`${this.parentAcronym()} Downloaded file`)
+        console.log(this.parent.name + '/' + this.name)
+        response.pipe(fs.createWriteStream(this.path(path)))
+        res()
+      })
     })
   }
 

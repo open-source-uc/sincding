@@ -19,18 +19,18 @@ data = () => {
       username: {
         pattern: /^[a-zA-Z\d]+$/,
         message: 'Username without @uc',
-        required: true,
+        required: true
       },
       password: {
         required: true,
         hidden: true,
-        replace: '*',
+        replace: '*'
       },
       path: {
-        required: true,
+        required: true
       },
-      ignore: {},
-    },
+      ignore: {}
+    }
   }
   prompt.start()
   const saveData = (err, result) => {
@@ -38,12 +38,9 @@ data = () => {
     if (!fs.existsSync(`${userDataFolder}`)) {
       fs.mkdirSync(`${userDataFolder}`)
     }
-    fs.writeFile(
-      `${userDataFolder}/data.json`,
-      JSON.stringify(data),
-      'utf8',
-      run,
-    )
+    const path = `${userDataFolder}/data.json`
+    const dataJson = JSON.stringify(data)
+    fs.writeFile(path, dataJson, 'utf8', run)
   }
   prompt.get(schema, saveData)
 }
@@ -59,7 +56,7 @@ sync = data => {
         const found = courses.map(c => ({
           name: c.name,
           folders: Object.keys(c.folders).length,
-          files: Object.keys(c.files).length,
+          files: Object.keys(c.files).length
         }))
         console.log(found)
         console.log('Download:')
@@ -70,12 +67,12 @@ sync = data => {
             .map(id => c.folders[id]),
           files: Object.keys(c.files)
             .filter(id => c.files[id].shouldDownload(data.path))
-            .map(id => c.files[id]),
+            .map(id => c.files[id])
         }))
         const downloadNumbers = downloads.map(download => ({
           name: download.name,
           folders: download.folders.length,
-          files: download.files.length,
+          files: download.files.length
         }))
         console.log(downloadNumbers)
         console.log('Creating missing folders...')
@@ -95,13 +92,13 @@ sync = data => {
 options = {
   data: data,
   sync: sync,
-  exit: () => {},
+  exit: () => {}
 }
 
 optionsDescriptions = {
   data: 'Update your data',
   sync: 'Download everythang',
-  exit: 'Exit',
+  exit: 'Exit'
 }
 
 run = () => {
