@@ -12,6 +12,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: # (Fixed)
 [//]: # (Security)
 
+## [1.0.8] - 2016-03-16
+### Changed
+- Only create file after download is finished [@negebauer]
+
 ## [1.0.7] - 2016-03-11
 ### Fixed
 - Fix restricted characters in course, folder and file name [#1](https://github.com/open-source-uc/sincding/pull/#1) [@aaossa]
