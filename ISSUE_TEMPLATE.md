@@ -1,0 +1,2 @@
+- [ ] Installed node with version >= 6 (`node -v`)
+- [ ] Checked other issues
