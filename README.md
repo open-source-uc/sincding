@@ -4,7 +4,8 @@
 
 Sincding allows you to download the files from uc siding in an easy way
 
-**If you aren't familiar with CLI** (command line interface) programs you should check the [video tutorial](https://github.com/open-source-uc/sincding/blob/assets/tutorial.mp4). If you are, just keep reading.
+**If you aren't familiar with CLI** (command line interface) programs you should check the [video tutorial](https://github.com/open-source-uc/sincding/blob/assets/tutorial.mp4).  
+If you are, just keep reading.
 
 You must have [node](https://nodejs.org) installed to use it
 
