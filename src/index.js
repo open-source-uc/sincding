@@ -15,7 +15,7 @@ const userDataFolder = `${os.homedir()}/.sincding`
 
 data = (data = {}) => {
   console.log('Let\'s update your user data')
-  if (data !== {}) {
+  if (data.username) {
     console.log(
       ' For each prompt the value in () is the current one\n Press enter if you don\'t want to change it'
     )
@@ -143,15 +143,20 @@ optionsDescriptions = {
 run = () => {
   console.log('')
   // Load user data
-  const userData = require(`${userDataFolder}/data.json`) || {}
-  if (userData === {}) {
-    data(userData)
+  let userData
+  try {
+    userData = require(`${userDataFolder}/data.json`)
+  } catch (err) {
+    userData = null
+  }
+  if (!userData) {
+    return data()
   }
   // Show user data
   console.log('Current user data')
   console.log(`user: ${userData.username}`)
   console.log(`path: ${userData.path}`)
-  console.log(`ignore: ${userData.ignore.join(' ')}`)
+  console.log(`ignore: ${(userData.ignore || []).join(' ')}`)
   console.log('')
   // If a command was supplied in the call, execute it
   const commandLine = options[process.argv[2]]
