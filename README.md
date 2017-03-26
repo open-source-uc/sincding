@@ -38,7 +38,8 @@ The credentials are stored in your Home directory on `.sincding/data.json`
 
 ***
 
-Let's see it in action  
+Let's see it in action
+
 ![demo](https://github.com/open-source-uc/sincding/blob/assets/demo.gif)
 
 ***
