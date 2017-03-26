@@ -7,6 +7,7 @@ const updateNotifier = require('update-notifier')
 const pkg = require('../package.json')
 const Session = require('../lib/session')
 const siding = require('../lib/siding')
+const error = require('../lib/error')
 
 prompt.colors = false
 
@@ -109,22 +110,12 @@ sync = data => {
         Promise.all(files.map(file => file.download(data.path))).then(() =>
           console.log('\nFinished downloading!'))
       })
-      .catch(error)
+      .catch(err => error(err, 'Running sync'))
   })
 }
 
 exit = () => {
   console.log('\nTerminated sincding')
-}
-
-error = err => {
-  const errorMessage = `
-    --- Had an error ---
-    ${error}
-
-    --- Please report it to https://github.com/open-source-uc/sincding/issues
-  `
-  console.log(errorMessage)
 }
 
 options = {
