@@ -52,6 +52,9 @@ data = (data = {}) => {
   }
   prompt.start()
   const saveData = (err, result) => {
+    if (!result) {
+      return exit()
+    }
     const data = Object.assign({}, result, {
       ignore: result.ignore.split(' ').map(a => a.toUpperCase())
     })
@@ -111,7 +114,7 @@ sync = data => {
 }
 
 exit = () => {
-  console.log('Terminated sincding')
+  console.log('\nTerminated sincding')
 }
 
 error = err => {
@@ -165,7 +168,6 @@ run = () => {
   prompt.start()
   runCommand = (err, result) => {
     if (!result || err) {
-      console.log('\n')
       return exit()
     }
     const command = options[result.command]
