@@ -10,7 +10,7 @@ If you are, just keep reading.
 You must have [node](https://nodejs.org) installed to use this
 
 Install with
-```
+```bash
 # with yarn:
 yarn global add sincding
 
@@ -19,12 +19,12 @@ npm install -g sincding
 ```
 
 And then just run
-```
+```bash
 sincding
 ```
 
 Or if you want to just update your files quickly you can run
-```
+```bash
 sincding sync
 ```
 
