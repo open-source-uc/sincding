@@ -12,8 +12,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: ### (Fixed)
 [//]: ### (Security)
 
+### Added
+- Improve user data update
+  - Verify ignore course acronyms separated by space [@negebauer]
+  - Turn acronyms to uppercase [@negebauer]
+  - Previouse data is default [@negebauer]
+  - Check folder path for user data [#7](https://github.com/open-source-uc/sincding/issues/7) [@negebauer]
+- Check for errors in prompt (like Ctrl+C) [@negebauer]
+- Some comments to main script [@negebauer]
+
 ### Changed
 - Project structure [@negebauer]
+- User logs [@negebauer]
 
 ## [1.0.9] - 2016-03-16
 ### Added
