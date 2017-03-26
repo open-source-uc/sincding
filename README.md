@@ -47,12 +47,12 @@ Let's see it in action
 ## Development
 
 Clone the repo
-```
+```bash
 git clone https://github.com/open-source-uc/sincding.git
 ```
 
 Install dependencies
-```
+```bash
 # with yarn:
 yarn
 
@@ -61,7 +61,7 @@ npm i
 ```
 
 To test you have two options
-```
+```bash
 # run from project folder
 node index.js
 
