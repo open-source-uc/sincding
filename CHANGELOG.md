@@ -5,12 +5,15 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-[//]: # (Added)
-[//]: # (Changed)
-[//]: # (Deprecated)
-[//]: # (Removed)
-[//]: # (Fixed)
-[//]: # (Security)
+[//]: ### (Added)
+[//]: ### (Changed)
+[//]: ### (Deprecated)
+[//]: ### (Removed)
+[//]: ### (Fixed)
+[//]: ### (Security)
+
+### Changed
+- Project structure [@negebauer]
 
 ## [1.0.9] - 2016-03-16
 ### Added

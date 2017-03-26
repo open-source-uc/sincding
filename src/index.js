@@ -4,9 +4,9 @@ const prompt = require('prompt')
 const fs = require('fs')
 const os = require('os')
 const updateNotifier = require('update-notifier')
-const pkg = require('./package.json')
-const Session = require('./session')
-const siding = require('./siding')
+const pkg = require('../package.json')
+const Session = require('../lib/session')
+const siding = require('../lib/siding')
 
 prompt.colors = false
 

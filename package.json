@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint --ignore-pattern '!node_modules/*' --fix ./"
+    "lint": "eslint --ignore-pattern '!node_modules/*' --fix ./src ./lib"
   },
   "author": {
     "name": "Nicolas Gebauer",
@@ -24,7 +24,7 @@
     "update-notifier": "^2.1.0"
   },
   "bin": {
-    "sincding": "index.js"
+    "sincding": "src/index.js"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
