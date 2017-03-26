@@ -74,7 +74,8 @@ sync = data => {
   const session = new Session(data.username, data.password)
   siding.coursesList(session, data.ignore).then(courses => {
     console.log('\nFound courses')
-    console.log(courses.map(c => c.path()))
+    courses.forEach(c => console.log(` - ${c.path()}`))
+    console.log('')
     Promise.all(courses.map(course => course.scrap()))
       .then(courses => {
         console.log('\nFound:')
@@ -83,7 +84,7 @@ sync = data => {
           folders: Object.keys(c.folders).length,
           files: Object.keys(c.files).length
         }))
-        console.log(found)
+        coursesSummary(found)
         console.log('\nDownload:')
         const downloads = courses.map(c => ({
           name: c.name,
@@ -99,7 +100,7 @@ sync = data => {
           folders: download.folders.length,
           files: download.files.length
         }))
-        console.log(downloadNumbers)
+        coursesSummary(downloadNumbers)
         console.log('\nCreating missing folders...')
         courses.forEach(course => course.createFolder(data.path))
         downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
@@ -113,6 +114,15 @@ sync = data => {
       .catch(err => error(err, 'Running sync'))
   })
 }
+
+coursesSummary = courses =>
+  courses.forEach(c => {
+    const log = `
+- ${c.name}
+  - folders: ${c.folders}
+  - files: ${c.files}`
+    console.log(log)
+  })
 
 exit = () => {
   console.log('\nTerminated sincding')

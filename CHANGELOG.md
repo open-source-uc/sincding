@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
   - Check folder path for user data [#7](https://github.com/open-source-uc/sincding/issues/7) [@negebauer]
 - Check for errors in prompt (like Ctrl+C) [@negebauer]
 - Some comments to main script [@negebauer]
+- Nicer download summary [#6](https://github.com/open-source-uc/sincding/issues/6) [@negebauer]
 
 ### Changed
 - Project structure [@negebauer]
