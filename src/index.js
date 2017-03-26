@@ -16,7 +16,7 @@ data = (data = {}) => {
   console.log('Let\'s update your user data')
   if (data !== {}) {
     console.log(
-      'For each prompt the value in () is the current one\n Press enter if you don\'t want to change it'
+      ' For each prompt the value in () is the current one\n Press enter if you don\'t want to change it'
     )
   }
   const schema = {
