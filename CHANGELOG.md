@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Main app [@negebauer]
 - Yarn support [@mrpatiwi]
 
-[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.1.1...HEAD
 [1.1.1]: https://github.com/open-source-uc/sincding/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/open-source-uc/sincding/compare/v1.0.9...v1.1.0
 [1.0.9]: https://github.com/open-source-uc/sincding/compare/v1.0.8...v1.0.9
