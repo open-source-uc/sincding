@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Error log [@negebauer]
+- Trim parent name on print [@negebauer]
+- Trim path name on path format [@negebauer]
 
 ## [1.1.1] - 2016-03-26
 ### Fixed
