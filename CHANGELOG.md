@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: ### (Fixed)
 [//]: ### (Security)
 
+### Changed
+- Error log [@negebauer]
+
 ## [1.1.1] - 2016-03-26
 ### Fixed
 - Error when loading user data [@negebauer]
