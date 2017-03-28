@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: ### (Security)
 
 ## [1.1.3] - 2016-03-28
+### Added
+- Deploy script
+
 ### Changed
 - Check for updates each hour [@negebauer] (when running)
 
