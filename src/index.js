@@ -188,7 +188,10 @@ run = () => {
   prompt.get(['command'], runCommand)
 }
 
-updateNotifier({pkg}).notify()
+const notifier = updateNotifier({
+  pkg,
+  updateCheckInterval: 1000 * 60 * 60 // 1 hour
+}).notify()
 console.log('Welcome to sincding!')
 console.log(`Version ${pkg.version}`)
 run()
