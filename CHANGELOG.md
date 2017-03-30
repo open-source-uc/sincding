@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: ### (Fixed)
 [//]: ### (Security)
 
-## [1.1.4] - 2016-03-28
+## [1.1.4] - 2016-03-29
 ### Added
 - Export sincding modules for external libraries [@negebauer]
 
