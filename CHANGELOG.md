@@ -12,6 +12,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: ### (Fixed)
 [//]: ### (Security)
 
+### Added
+- Circle CI integration [@negebauer]
+
 ## [1.1.4] - 2016-03-29
 ### Added
 - Export sincding modules for external libraries [@negebauer]
