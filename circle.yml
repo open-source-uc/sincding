@@ -1,0 +1,17 @@
+machine:
+  node:
+    version: 7.10.0
+
+dependencies:
+  pre:
+    - npm install -g pkg
+  cache_directories:
+    - node_modules
+
+test:
+  pre:
+    - npm run lint
+  override:
+    - npm test
+  post:
+    - pkg --out-dir $CIRCLE_ARTIFACTS
