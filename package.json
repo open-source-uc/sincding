@@ -8,6 +8,7 @@
   },
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
     "test": "echo 'No tests'",
     "lint": "eslint --ignore-pattern '!node_modules/*' --fix ./src ./lib",
     "deploy": "./scripts/deploy.sh"
