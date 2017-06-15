@@ -1,6 +1,6 @@
 machine:
   node:
-    version:         7.10.0
+    version: 7.10.0
 
 dependencies:
   pre:
@@ -19,8 +19,8 @@ test:
 
 deployment:
   release:
-    tag:             /v[0-9]+(\.[0-9]+)*/
-    owner:           open-source-uc
+    tag: /v[0-9]+(\.[0-9]+)*/
+    owner: open-source-uc
     commands:
       - brew tap tcnksm/ghr
       - brew install ghr
