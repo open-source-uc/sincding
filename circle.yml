@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 7.10.0
+    version:         7.10.0
 
 dependencies:
   pre:
@@ -16,3 +16,9 @@ test:
   post:
     - pkg package.json --out-dir $CIRCLE_ARTIFACTS
     - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
+
+deployment:
+  release:
+    tag: /v\d.\d.\d/
+    commands:
+      — ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace `git describe --tags` $CIRCLE_ARTIFACTS
