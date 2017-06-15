@@ -15,6 +15,4 @@ test:
     - npm test
   post:
     - pkg package.json --out-dir $CIRCLE_ARTIFACTS
-    - echo $(ls $CIRCLE_ARTIFACTS)
-    - for executable in $(ls $CIRCLE_ARTIFACTS); do echo chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
     - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
