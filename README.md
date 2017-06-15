@@ -1,5 +1,6 @@
 # Sincding
 
+[![CircleCI](https://circleci.com/gh/open-source-uc/sincding.svg?style=svg)](https://circleci.com/gh/open-source-uc/sincding)
 [![npm version](https://badge.fury.io/js/sincding.svg)](https://badge.fury.io/js/sincding)
 [![dependencies](https://david-dm.org/open-source-uc/sincding.svg)](https://david-dm.org/open-source-uc/sincding)
 
