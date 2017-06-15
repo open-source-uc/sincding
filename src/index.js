@@ -8,6 +8,7 @@ const pkg = require('../package.json')
 const Session = require('../lib/session')
 const siding = require('../lib/siding')
 const error = require('../lib/error')
+const log = require('./log')
 
 prompt.colors = false
 
@@ -70,59 +71,33 @@ data = (data = {}) => {
   prompt.get(schema, saveData)
 }
 
-sync = data => {
+sync = async data => {
   const session = new Session(data.username, data.password)
-  siding.coursesList(session, data.ignore).then(courses => {
-    console.log('\nFound courses')
-    courses.forEach(c => console.log(` - ${c.path()}`))
-    console.log('')
-    Promise.all(courses.map(course => course.scrap()))
-      .then(courses => {
-        console.log('\nFound:')
-        const found = courses.map(c => ({
-          name: c.name,
-          folders: Object.keys(c.folders).length,
-          files: Object.keys(c.files).length
-        }))
-        coursesSummary(found)
-        console.log('\nDownload:')
-        const downloads = courses.map(c => ({
-          name: c.name,
-          folders: Object.keys(c.folders)
-            .filter(id => c.folders[id].shouldCreate(data.path))
-            .map(id => c.folders[id]),
-          files: Object.keys(c.files)
-            .filter(id => c.files[id].shouldDownload(data.path))
-            .map(id => c.files[id])
-        }))
-        const downloadNumbers = downloads.map(download => ({
-          name: download.name,
-          folders: download.folders.length,
-          files: download.files.length
-        }))
-        coursesSummary(downloadNumbers)
-        console.log('\nCreating missing folders...')
-        courses.forEach(course => course.createFolder(data.path))
-        downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
-        console.log('\nStarting downloads, this may take a while...')
-        const files = downloads
-          .map(download => download.files)
-          .reduce((total, arr) => total.concat(arr))
-        Promise.all(files.map(file => file.download(data.path))).then(() =>
-          console.log('\nFinished downloading!'))
-      })
-      .catch(err => error(err, 'Running sync'))
-  })
-}
+  const courses = await siding.coursesList(session, data.ignore)
+  log.coursesFound(courses)
+  await Promise.all(courses.map(course => course.scrap()))
+  const downloads = courses.map(c => ({
+    name: c.name,
+    folders: Object.keys(c.folders)
+      .filter(id => c.folders[id].shouldCreate(data.path))
+      .map(id => c.folders[id]),
+    files: Object.keys(c.files)
+      .filter(id => c.files[id].shouldDownload(data.path))
+      .map(id => c.files[id])
+  }))
+  log.coursesFiles(courses, downloads)
 
-coursesSummary = courses =>
-  courses.forEach(c => {
-    const log = `
-- ${c.name}
-  - folders: ${c.folders}
-  - files: ${c.files}`
-    console.log(log)
-  })
+  console.log('\nCreating missing folders...')
+  courses.forEach(course => course.createFolder(data.path))
+  downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
+
+  console.log('\nStarting downloads, this may take a while...')
+  const files = downloads
+    .map(download => download.files)
+    .reduce((total, arr) => total.concat(arr))
+  await Promise.all(files.map(file => file.download(data.path)))
+  console.log('\nFinished downloading!')
+}
 
 exit = () => {
   console.log('\nTerminated sincding')
