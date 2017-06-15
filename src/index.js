@@ -27,12 +27,12 @@ data = (data = {}) => {
         pattern: /^[a-zA-Z\d]+$/,
         message: 'Username without @uc',
         required: true,
-        default: data.username || ''
+        default: data.username || '',
       },
       password: {
         required: true,
         hidden: true,
-        replace: '*'
+        replace: '*',
       },
       path: {
         required: true,
@@ -43,14 +43,14 @@ data = (data = {}) => {
             return false
           }
           return true
-        }
+        },
       },
       ignore: {
         pattern: /^[a-zA-Z\d ]+$/,
         message: 'Course acronyms separated by a space',
-        default: (data.ignore || []).join(' ')
-      }
-    }
+        default: (data.ignore || []).join(' '),
+      },
+    },
   }
   prompt.start()
   const saveData = (err, result) => {
@@ -58,7 +58,7 @@ data = (data = {}) => {
       return exit()
     }
     const data = Object.assign({}, result, {
-      ignore: result.ignore.split(' ').map(a => a.toUpperCase())
+      ignore: result.ignore.split(' ').map(a => a.toUpperCase()),
     })
     if (!fs.existsSync(`${userDataFolder}`)) {
       fs.mkdirSync(`${userDataFolder}`)
@@ -83,7 +83,7 @@ sync = async data => {
       .map(id => c.folders[id]),
     files: Object.keys(c.files)
       .filter(id => c.files[id].shouldDownload(data.path))
-      .map(id => c.files[id])
+      .map(id => c.files[id]),
   }))
   log.coursesFiles(courses, downloads)
 
@@ -106,13 +106,13 @@ exit = () => {
 options = {
   data: data,
   sync: sync,
-  exit: exit
+  exit: exit,
 }
 
 optionsDescriptions = {
   data: 'Update your user data',
   sync: 'Download sincding files',
-  exit: 'Exit sincding'
+  exit: 'Exit sincding',
 }
 
 run = () => {
@@ -165,7 +165,7 @@ run = () => {
 
 const notifier = updateNotifier({
   pkg,
-  updateCheckInterval: 1000 * 60 * 60 // 1 hour
+  updateCheckInterval: 1000 * 60 * 60, // 1 hour
 }).notify()
 console.log('Welcome to sincding!')
 console.log(`Version ${pkg.version}`)

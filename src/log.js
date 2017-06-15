@@ -8,14 +8,14 @@ coursesFiles = (courses, downloads) => {
   const found = courses.map(c => ({
     name: c.name,
     folders: Object.keys(c.folders).length,
-    files: Object.keys(c.files).length
+    files: Object.keys(c.files).length,
   }))
   coursesSummary(found)
   console.log('\nDownload:')
   const downloadNumbers = downloads.map(download => ({
     name: download.name,
     folders: download.folders.length,
-    files: download.files.length
+    files: download.files.length,
   }))
   coursesSummary(downloadNumbers)
 }
