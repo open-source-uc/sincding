@@ -64,7 +64,9 @@ npm i
 To test you have two options
 ```bash
 # run from project folder
-node index.js
+npm start
+# or
+node src/index.js
 
 # or link it to run it from everywhere
 npm link
