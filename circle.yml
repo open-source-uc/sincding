@@ -14,4 +14,14 @@ test:
   override:
     - npm test
   post:
-    - pkg package.json --out-dir $CIRCLE_ARTIFACTS
+    # - pkg package.json --out-dir $CIRCLE_ARTIFACTS
+    # - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
+
+# deployment:
+#   release:
+#     tag: /v[0-9]+(\.[0-9]+)*/
+#     owner: open-source-uc
+#     commands:
+#       - brew tap tcnksm/ghr
+#       - brew install ghr
+#       - ghr -t $GITHUB_TOKEN -u $CIRCLE_PROJECT_USERNAME -r $CIRCLE_PROJECT_REPONAME $CIRCLE_TAG $CIRCLE_ARTIFACTS/ || true

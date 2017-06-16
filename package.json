@@ -9,6 +9,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
+    "sync": "node src/index.js sync",
     "test": "echo 'No tests'",
     "lint": "eslint --ignore-pattern '!node_modules/*' --fix ./src ./lib",
     "deploy": "./scripts/deploy.sh"
@@ -19,10 +20,11 @@
     "url": "http://negebauer.github.io"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "cheerio": "^0.22.0",
     "iconv-lite": "^0.4.15",
     "prompt": "^1.0.0",
-    "request": "^2.80.0",
+    "request": "^2.81.0",
     "update-notifier": "^2.1.0"
   },
   "bin": {

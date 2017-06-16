@@ -8,6 +8,8 @@ const pkg = require('../package.json')
 const Session = require('../lib/session')
 const siding = require('../lib/siding')
 const error = require('../lib/error')
+const wait = require('../lib/wait')
+const log = require('./log')
 
 prompt.colors = false
 
@@ -26,12 +28,12 @@ data = (data = {}) => {
         pattern: /^[a-zA-Z\d]+$/,
         message: 'Username without @uc',
         required: true,
-        default: data.username || ''
+        default: data.username || '',
       },
       password: {
         required: true,
         hidden: true,
-        replace: '*'
+        replace: '*',
       },
       path: {
         required: true,
@@ -42,14 +44,14 @@ data = (data = {}) => {
             return false
           }
           return true
-        }
+        },
       },
       ignore: {
         pattern: /^[a-zA-Z\d ]+$/,
         message: 'Course acronyms separated by a space',
-        default: (data.ignore || []).join(' ')
-      }
-    }
+        default: (data.ignore || []).join(' '),
+      },
+    },
   }
   prompt.start()
   const saveData = (err, result) => {
@@ -57,7 +59,7 @@ data = (data = {}) => {
       return exit()
     }
     const data = Object.assign({}, result, {
-      ignore: result.ignore.split(' ').map(a => a.toUpperCase())
+      ignore: result.ignore.split(' ').map(a => a.toUpperCase()),
     })
     if (!fs.existsSync(`${userDataFolder}`)) {
       fs.mkdirSync(`${userDataFolder}`)
@@ -70,100 +72,62 @@ data = (data = {}) => {
   prompt.get(schema, saveData)
 }
 
-sync = data => {
+sync = async data => {
   const session = new Session(data.username, data.password)
-  siding.coursesList(session, data.ignore).then(courses => {
-    console.log('\nFound courses')
-    courses.forEach(c => console.log(` - ${c.path()}`))
-    console.log('')
-    Promise.all(courses.map(course => course.scrap()))
-      .then(courses => {
-        console.log('\nFound:')
-        const found = courses.map(c => ({
-          name: c.name,
-          folders: Object.keys(c.folders).length,
-          files: Object.keys(c.files).length
-        }))
-        coursesSummary(found)
-        console.log('\nDownload:')
-        const downloads = courses.map(c => ({
-          name: c.name,
-          folders: Object.keys(c.folders)
-            .filter(id => c.folders[id].shouldCreate(data.path))
-            .map(id => c.folders[id]),
-          files: Object.keys(c.files)
-            .filter(id => c.files[id].shouldDownload(data.path))
-            .map(id => c.files[id])
-        }))
-        const downloadNumbers = downloads.map(download => ({
-          name: download.name,
-          folders: download.folders.length,
-          files: download.files.length
-        }))
-        coursesSummary(downloadNumbers)
-        console.log('\nCreating missing folders...')
-        courses.forEach(course => course.createFolder(data.path))
-        downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
-        console.log('\nStarting downloads, this may take a while...')
-        const files = downloads
-          .map(download => download.files)
-          .reduce((total, arr) => total.concat(arr))
-        Promise.all(files.map(file => file.download(data.path))).then(() =>
-          console.log('\nFinished downloading!'))
-      })
-      .catch(err => error(err, 'Running sync'))
-  })
+  try {
+    const courses = await siding.coursesList(session, data.ignore)
+    log.coursesFound(courses)
+    await Promise.all(courses.map(course => course.scrap()))
+    const downloads = courses.map(c => ({
+      name: c.name,
+      folders: Object.keys(c.folders)
+        .filter(id => c.folders[id].shouldCreate(data.path))
+        .map(id => c.folders[id]),
+      files: Object.keys(c.files)
+        .filter(id => c.files[id].shouldDownload(data.path))
+        .map(id => c.files[id]),
+    }))
+    log.coursesFiles(courses, downloads)
+
+    console.log('\nCreating missing folders...')
+    courses.forEach(course => course.createFolder(data.path))
+    downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
+
+    console.log('\nStarting downloads, this may take a while...')
+    const files = downloads
+      .map(download => download.files)
+      .reduce((total, arr) => total.concat(arr))
+    await files.reduce(async (promise, file) => {
+      await promise
+      return file.download(data.path)
+    }, Promise.resolve())
+    console.log('\nFinished downloading!')
+  } catch (err) {
+    error(err.message, 'sync')
+  }
 }
 
-coursesSummary = courses =>
-  courses.forEach(c => {
-    const log = `
-- ${c.name}
-  - folders: ${c.folders}
-  - files: ${c.files}`
-    console.log(log)
-  })
-
-exit = () => {
-  console.log('\nTerminated sincding')
-}
-
-options = {
-  data: data,
-  sync: sync,
-  exit: exit
-}
-
-optionsDescriptions = {
-  data: 'Update your user data',
-  sync: 'Download sincding files',
-  exit: 'Exit sincding'
-}
-
-run = () => {
-  console.log('')
-  // Load user data
-  let userData
+loadUserData = () => {
+  let userData = null
   try {
     userData = require(`${userDataFolder}/data.json`)
-  } catch (err) {
-    userData = null
-  }
+  } catch (err) {}
+  return userData
+}
+
+run = async () => {
+  console.log('')
+  // Load user data
+  const userData = loadUserData()
   if (!userData) {
     return data()
   }
-  // Show user data
-  console.log('Current user data')
-  console.log(`user: ${userData.username}`)
-  console.log(`path: ${userData.path}`)
-  console.log(`ignore: ${(userData.ignore || []).join(' ')}`)
-  console.log('')
+  log.logUser(userData)
   // If a command was supplied in the call, execute it
-  const commandLine = options[process.argv[2]]
-  if (commandLine) {
-    console.log(`Executing \'${process.argv[2]}\' command`)
+  const command = process.argv[2]
+  if (command) {
     process.argv[2] = ''
-    return commandLine(userData)
+    return runCommand(userData, command)
   }
   // Show available commands
   console.log('Commands:')
@@ -172,26 +136,39 @@ run = () => {
   })
   // Prompt user for command
   prompt.start()
-  runCommand = (err, result) => {
-    if (!result || err) {
-      return exit()
-    }
-    const command = options[result.command]
-    if (!command) {
-      console.log('Not a valid command')
-      return run()
-    }
-    // Execute selected command
-    console.log(`Executing \'${result.command}\' command`)
-    options[result.command](userData)
-  }
-  prompt.get(['command'], runCommand)
+  prompt.get(['command'], (err, result) =>
+    runCommand(userData, (result || {}).command, err)
+  )
 }
 
-const notifier = updateNotifier({
-  pkg,
-  updateCheckInterval: 1000 * 60 * 60 // 1 hour
-}).notify()
+runCommand = (userData, command, err) => {
+  if (err) {
+    return options.exit()
+  }
+  const action = options[command]
+  if (!action) {
+    console.log('Not a valid command')
+    return run()
+  }
+  // Execute selected command
+  console.log(`Executing \'${command}\' command`)
+  action(userData)
+}
+
+options = {
+  data: data,
+  sync: sync,
+  exit: () => console.log('\nTerminated sincding'),
+}
+
+optionsDescriptions = {
+  data: 'Update your user data',
+  sync: 'Download sincding files',
+  exit: 'Exit sincding',
+}
+
+const updateCheckInterval = 1000 * 60 * 60
+const notifier = updateNotifier({ pkg, updateCheckInterval }).notify() // 1 hour
 console.log('Welcome to sincding!')
 console.log(`Version ${pkg.version}`)
 run()
