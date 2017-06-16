@@ -99,7 +99,6 @@ sync = async data => {
       .reduce((total, arr) => total.concat(arr))
     await files.reduce(async (promise, file) => {
       await promise
-      wait()
       return file.download(data.path)
     }, Promise.resolve())
     console.log('\nFinished downloading!')
