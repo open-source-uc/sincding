@@ -73,75 +73,65 @@ data = (data = {}) => {
 
 sync = async data => {
   const session = new Session(data.username, data.password)
-  await session.login()
-  return
+  try {
+    const courses = await siding.coursesList(session, data.ignore)
+    log.coursesFound(courses)
+    await Promise.all(courses.map(course => course.scrap()))
+    const downloads = courses.map(c => ({
+      name: c.name,
+      folders: Object.keys(c.folders)
+        .filter(id => c.folders[id].shouldCreate(data.path))
+        .map(id => c.folders[id]),
+      files: Object.keys(c.files)
+        .filter(id => c.files[id].shouldDownload(data.path))
+        .map(id => c.files[id]),
+    }))
+    log.coursesFiles(courses, downloads)
 
-  const courses = await siding.coursesList(session, data.ignore)
-  log.coursesFound(courses)
-  await Promise.all(courses.map(course => course.scrap()))
-  const downloads = courses.map(c => ({
-    name: c.name,
-    folders: Object.keys(c.folders)
-      .filter(id => c.folders[id].shouldCreate(data.path))
-      .map(id => c.folders[id]),
-    files: Object.keys(c.files)
-      .filter(id => c.files[id].shouldDownload(data.path))
-      .map(id => c.files[id]),
-  }))
-  log.coursesFiles(courses, downloads)
+    console.log('\nCreating missing folders...')
+    courses.forEach(course => course.createFolder(data.path))
+    downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
 
-  console.log('\nCreating missing folders...')
-  courses.forEach(course => course.createFolder(data.path))
-  downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
-
-  console.log('\nStarting downloads, this may take a while...')
-  const files = downloads
-    .map(download => download.files)
-    .reduce((total, arr) => total.concat(arr))
-  await Promise.all(files.map(file => file.download(data.path)))
-  console.log('\nFinished downloading!')
+    console.log('\nStarting downloads, this may take a while...')
+    const files = downloads
+      .map(download => download.files)
+      .reduce((total, arr) => total.concat(arr))
+    await Promise.all(files.map(file => file.download(data.path)))
+    console.log('\nFinished downloading!')
+  } catch (err) {
+    error(err.message, 'sync')
+  }
 }
 
-exit = () => {
-  console.log('\nTerminated sincding')
-}
-
-options = {
-  data: data,
-  sync: sync,
-  exit: exit,
-}
-
-optionsDescriptions = {
-  data: 'Update your user data',
-  sync: 'Download sincding files',
-  exit: 'Exit sincding',
-}
-
-run = () => {
-  console.log('')
-  // Load user data
-  let userData
+loadUserData = () => {
+  let userData = null
   try {
     userData = require(`${userDataFolder}/data.json`)
-  } catch (err) {
-    userData = null
-  }
-  if (!userData) {
-    return data()
-  }
-  // Show user data
+  } catch (err) {}
+  return userData
+}
+
+logUser = userData => {
   console.log('Current user data')
   console.log(`user: ${userData.username}`)
   console.log(`path: ${userData.path}`)
   console.log(`ignore: ${(userData.ignore || []).join(' ')}`)
   console.log('')
+}
+
+run = async () => {
+  console.log('')
+  // Load user data
+  const userData = loadUserData()
+  if (!userData) {
+    return data()
+  }
+  logUser(userData)
   // If a command was supplied in the call, execute it
-  const commandLine = options[process.argv[2]]
-  if (commandLine) {
-    console.log(`Executing \'${process.argv[2]}\' command`)
+  const command = process.argv[2]
+  if (command) {
     process.argv[2] = ''
-    return commandLine(userData)
+    return runCommand(userData, command)
   }
   // Show available commands
   console.log('Commands:')
@@ -150,26 +140,39 @@ run = () => {
   })
   // Prompt user for command
   prompt.start()
-  runCommand = (err, result) => {
-    if (!result || err) {
-      return exit()
-    }
-    const command = options[result.command]
-    if (!command) {
-      console.log('Not a valid command')
-      return run()
-    }
-    // Execute selected command
-    console.log(`Executing \'${result.command}\' command`)
-    options[result.command](userData)
-  }
-  prompt.get(['command'], runCommand)
+  prompt.get(['command'], (err, result) =>
+    runCommand(userData, (result || {}).command, err)
+  )
 }
 
-const notifier = updateNotifier({
-  pkg,
-  updateCheckInterval: 1000 * 60 * 60, // 1 hour
-}).notify()
+runCommand = (userData, command, err) => {
+  if (err) {
+    return options.exit()
+  }
+  const action = options[command]
+  if (!action) {
+    console.log('Not a valid command')
+    return run()
+  }
+  // Execute selected command
+  console.log(`Executing \'${command}\' command`)
+  action(userData)
+}
+
+options = {
+  data: data,
+  sync: sync,
+  exit: () => console.log('\nTerminated sincding'),
+}
+
+optionsDescriptions = {
+  data: 'Update your user data',
+  sync: 'Download sincding files',
+  exit: 'Exit sincding',
+}
+
+const updateCheckInterval = 1000 * 60 * 60
+const notifier = updateNotifier({ pkg, updateCheckInterval }).notify() // 1 hour
 console.log('Welcome to sincding!')
 console.log(`Version ${pkg.version}`)
 run()
