@@ -8,6 +8,7 @@ const pkg = require('../package.json')
 const Session = require('../lib/session')
 const siding = require('../lib/siding')
 const error = require('../lib/error')
+const wait = require('../lib/wait')
 const log = require('./log')
 
 prompt.colors = false
@@ -96,7 +97,11 @@ sync = async data => {
     const files = downloads
       .map(download => download.files)
       .reduce((total, arr) => total.concat(arr))
-    await Promise.all(files.map(file => file.download(data.path)))
+    await files.reduce(async (promise, file) => {
+      await promise
+      wait()
+      return file.download(data.path)
+    }, Promise.resolve())
     console.log('\nFinished downloading!')
   } catch (err) {
     error(err.message, 'sync')
