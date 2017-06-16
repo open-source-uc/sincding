@@ -115,14 +115,6 @@ loadUserData = () => {
   return userData
 }
 
-logUser = userData => {
-  console.log('Current user data')
-  console.log(`user: ${userData.username}`)
-  console.log(`path: ${userData.path}`)
-  console.log(`ignore: ${(userData.ignore || []).join(' ')}`)
-  console.log('')
-}
-
 run = async () => {
   console.log('')
   // Load user data
@@ -130,7 +122,7 @@ run = async () => {
   if (!userData) {
     return data()
   }
-  logUser(userData)
+  log.logUser(userData)
   // If a command was supplied in the call, execute it
   const command = process.argv[2]
   if (command) {

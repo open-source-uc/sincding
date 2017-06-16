@@ -29,4 +29,12 @@ coursesSummary = courses =>
     console.log(log)
   })
 
-module.exports = { coursesFound, coursesFiles }
+logUser = userData => {
+  console.log('Current user data')
+  console.log(`user: ${userData.username}`)
+  console.log(`path: ${userData.path}`)
+  console.log(`ignore: ${(userData.ignore || []).join(' ')}`)
+  console.log('')
+}
+
+module.exports = { coursesFound, coursesFiles, logUser }
