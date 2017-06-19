@@ -1,4 +1,4 @@
-- [ ] Installed node with version >= 6 (`node -v`)
+- [ ] Installed node with version >= 8 (`node -v`)
 - [ ] Checked other issues
 
 ### Describe your problem
