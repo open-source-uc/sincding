@@ -5,3 +5,7 @@
 
 ### Attach log
 Paste the full log when running `sincding sync`
+```bash
+#Paste log here
+
+```
