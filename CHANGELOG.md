@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: ### (Fixed)
 [//]: ### (Security)
 
-## [1.2.0] - 2017-06-16
+## [1.2.0] - 2017-07-31
 ### Changed
 - Update siding url to 2017-2 [@negebauer]
 
