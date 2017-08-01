@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 [//]: ### (Security)
 
 ## [1.2.0] - 2017-06-16
+### Changed
+- Update siding url to 2017-2 [@negebauer]
+
+## [1.2.0] - 2017-06-16
 ### Added
 - Circle CI integration [@negebauer]
 
@@ -78,7 +82,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Main app [@negebauer]
 - Yarn support [@mrpatiwi]
 
-[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/open-source-uc/sincding/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/open-source-uc/sincding/compare/v1.1.4...v1.2.0
 [1.1.4]: https://github.com/open-source-uc/sincding/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/open-source-uc/sincding/compare/v1.1.2...v1.1.3
