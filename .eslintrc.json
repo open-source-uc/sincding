@@ -7,32 +7,6 @@
   "extends": [],
   "parserOptions": {
     "ecmaVersion": 6,
-    "ecmaFeatures": {
-      "arrowFunctions": true,
-      "binaryLiterals": true,
-      "blockBindings": true,
-      "classes": true,
-      "defaultParams": true,
-      "destructuring": true,
-      "experimentalObjectRestSpread": true,
-      "restParams": true,
-      "forOf": true,
-      "generators": true,
-      "modules": true,
-      "objectLiteralComputedProperties": true,
-      "objectLiteralDuplicateProperties": true,
-      "objectLiteralShorthandMethods": true,
-      "objectLiteralShorthandProperties": true,
-      "octalLiterals": true,
-      "regexUFlag": true,
-      "regexYFlag": true,
-      "spread": true,
-      "superInFunctions": true,
-      "templateStrings": true,
-      "unicodeCodePointEscapes": true,
-      "globalReturn": true,
-      "jsx": true
-    },
     "sourceType": "module"
   },
   "plugins": ["babel"],
@@ -44,12 +18,6 @@
     "quotes": ["error", "single"],
     "semi": ["error", "never"],
     "babel/semi": ["error", "never"],
-    "comma-dangle": ["error", {
-      "arrays": "always-multiline",
-      "objects": "always-multiline",
-      "imports": "always-multiline",
-      "exports": "always-multiline",
-      "functions": "ignore"
-    }]
+    "comma-dangle": ["error", "always"]
   }
 }

@@ -136,7 +136,7 @@ run = async () => {
   })
   // Prompt user for command
   prompt.start()
-  prompt.get(['command'], (err, result) =>
+  prompt.get(['command',], (err, result) =>
     runCommand(userData, (result || {}).command, err)
   )
 }
@@ -168,7 +168,7 @@ optionsDescriptions = {
 }
 
 const updateCheckInterval = 1000 * 60 * 60
-const notifier = updateNotifier({ pkg, updateCheckInterval }).notify() // 1 hour
+const notifier = updateNotifier({ pkg, updateCheckInterval, }).notify() // 1 hour
 console.log('Welcome to sincding!')
 console.log(`Version ${pkg.version}`)
 run()
