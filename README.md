@@ -32,15 +32,13 @@ On the first run you will be prompted for credentials
 
 The credentials are stored in your Home directory on `.sincding/data.json`
 
-***
-
 Let's see it in action
 
 ![demo](https://github.com/open-source-uc/sincding/blob/assets/demo.gif)
 
 ***
 
-## Development
+# Development
 
 Follow this script
 ```bash
@@ -52,7 +50,12 @@ cd sincding
 yarn
 ```
 
-To test you have two options
+Run tests
+```bash
+yarn test
+```
+
+Run program
 ```bash
 # Run from project folder
 yarn start
@@ -60,6 +63,16 @@ yarn start
 # Link it to run it from everywhere
 npm link
 sincding
+```
+
+### Tests
+
+In order for tests to pass you must create a `.env.json` file in `./__tests__` like this
+```json
+{
+  "username": "YOUR_UC_USERNAME",
+  "password": "YOUR_UC_PASSWORD"
+}
 ```
 
 Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/dev/CONTRIBUTING.md)
