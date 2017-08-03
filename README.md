@@ -13,20 +13,14 @@ You must have [node](https://nodejs.org) installed to use this (version >= 8)
 
 Install with
 ```bash
-# with yarn:
-yarn global add sincding
-
-# with npm:
 npm install -g sincding
 ```
 
 And then just run
 ```bash
+# Run full program
 sincding
-```
-
-Or if you want to just update your files quickly you can run
-```bash
+# Update files quickly
 sincding sync
 ```
 
@@ -48,28 +42,22 @@ Let's see it in action
 
 ## Development
 
-Clone the repo
+Follow this script
 ```bash
+# Clone the repo
 git clone https://github.com/open-source-uc/sincding.git
-```
-
-Install dependencies
-```bash
-# with yarn:
+# Cd into directory
+cd sincding
+# Install dependencies
 yarn
-
-# with npm:
-npm i
 ```
 
 To test you have two options
 ```bash
-# run from project folder
-npm start
-# or
-node src/index.js
+# Run from project folder
+yarn start
 
-# or link it to run it from everywhere
+# Link it to run it from everywhere
 npm link
 sincding
 ```
