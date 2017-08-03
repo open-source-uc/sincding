@@ -1,6 +1,6 @@
 // const updateNotifier = require("update-notifier")
 // const pkg = require("../package.json")
-// const Session = require("../lib/session")
+const Session = require("../lib/session")
 // const siding = require("../lib/siding")
 // const error = require("../lib/error")
 // const log = require("./log")
@@ -14,17 +14,17 @@ beforeAll(() => {
     console.error(
       "Credentials required to run tests\nCreate a .env.json file in ./__tests__ as specified in README.md"
     )
+    test("ERROR: No credentials", () => {})
+    process.exit(1)
   }
 })
 
-// Fail if no credentials loaded
-if (!credentials) {
-  test.only("ERROR: No credentials", () => {})
-}
+test("has valid credentials", () => {
+  expect(credentials.username).toBeTruthy()
+  expect(credentials.password).toBeTruthy()
+})
 
-describe("Siding", () => {
-  it("has valid credentials", () => {
-    expect(credentials.username).toBeTruthy()
-    expect(credentials.password).toBeTruthy()
-  })
+test("logins", async () => {
+  const session = new Session(credentials.username, credentials.password)
+  await session.login()
 })
