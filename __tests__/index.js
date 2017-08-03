@@ -8,17 +8,19 @@
 let credentials
 
 beforeAll(() => {
-  // Fail if no credentials file
   try {
     credentials = require("./.env.json")
   } catch (err) {
-    console.error("Credentials required to run tests")
     console.error(
-      "Create a .env.json file in ./__tests__ as specified in README.md"
+      "Credentials required to run tests\nCreate a .env.json file in ./__tests__ as specified in README.md"
     )
-    process.exit(1)
   }
 })
+
+// Fail if no credentials loaded
+if (!credentials) {
+  test.only("ERROR: No credentials", () => {})
+}
 
 describe("Siding", () => {
   it("has valid credentials", () => {
