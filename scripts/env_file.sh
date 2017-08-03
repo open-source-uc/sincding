@@ -7,9 +7,6 @@ keyVal() {
 echo "{" > $f
 
 keyVal "username" $UC_USERNAME
-# keyVal "password" $UC_PASSWORD
+keyVal "password" $UC_PASSWORD
 
 echo "}" >> $f
-
-echo 'file'
-cat $f
