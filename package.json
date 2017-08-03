@@ -21,7 +21,6 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
-    "bluebird": "^3.5.0",
     "cheerio": "^0.22.0",
     "iconv-lite": "^0.4.15",
     "prompt": "^1.0.0",
