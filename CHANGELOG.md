@@ -5,12 +5,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-[//]: ### (Added)
-[//]: ### (Changed)
-[//]: ### (Deprecated)
-[//]: ### (Removed)
-[//]: ### (Fixed)
-[//]: ### (Security)
+<!---
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+-->
+
+### Changed
+- Updated Changelog [@negebauer]
+- Updated and applied Eslint config [@negebauer]
 
 ## [1.2.0] - 2017-07-31
 ### Changed
