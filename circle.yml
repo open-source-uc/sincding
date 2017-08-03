@@ -13,6 +13,7 @@ test:
   pre:
     - yarn run lint
   override:
+    - ./env_file.sh
     - yarn test
   post:
     # - pkg package.json --out-dir $CIRCLE_ARTIFACTS
