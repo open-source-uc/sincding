@@ -1,14 +1,13 @@
-echo $(pwd)
+f="./__tests__/.env.json"
 
-# f="./__tests__/.env.json"
-#
-# keyVal() {
-#   echo "${1}: \"${2}\"\n" >> $f
-# }
-#
-# echo "{" > $f
-#
-# keyVal "username" $UC_USERNAME
-# keyVal "password" $UC_PASSWORD
-#
-# echo "}" >> $f
+keyVal() {
+  if [[ $3 == 0 ]]; then end=""; else end=","; fi
+  echo "${1}: \"${2}\"${end}" >> $f
+}
+
+echo "{" > $f
+
+keyVal "username" $UC_USERNAME
+keyVal "password" $UC_PASSWORD 0
+
+echo "}" >> $f
