@@ -1,12 +1,14 @@
-f="__tests__/.env.json"
+echo $(pwd)
 
-keyVal() {
-  echo "${1}: \"${2}\"\n" >> $f
-}
-
-echo "{" > $f
-
-keyVal "username" $UC_USERNAME
-keyVal "password" $UC_PASSWORD
-
-echo "}" >> $f
+# f="./__tests__/.env.json"
+#
+# keyVal() {
+#   echo "${1}: \"${2}\"\n" >> $f
+# }
+#
+# echo "{" > $f
+#
+# keyVal "username" $UC_USERNAME
+# keyVal "password" $UC_PASSWORD
+#
+# echo "}" >> $f
