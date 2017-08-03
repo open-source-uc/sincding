@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
-    "test": "echo 'No tests'",
+    "test": "jest",
     "lint": "eslint --fix ./src ./lib",
     "deploy": "./scripts/deploy.sh"
   },
@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
     "cheerio": "^0.22.0",
     "iconv-lite": "^0.4.15",
     "prompt": "^1.0.0",
@@ -37,6 +38,7 @@
     "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-node": "^4.2.1",
     "eslint-plugin-prettier": "^2.1.2",
+    "jest": "^20.0.4",
     "prettier": "^1.5.3"
   }
 }
