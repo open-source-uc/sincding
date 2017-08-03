@@ -5,14 +5,15 @@ machine:
 dependencies:
   pre:
     - npm install -g pkg
+    - npm i -g yarn
   cache_directories:
     - node_modules
 
 test:
   pre:
-    - npm run lint
+    - yarn run lint
   override:
-    - npm test
+    - yarn test
   post:
     # - pkg package.json --out-dir $CIRCLE_ARTIFACTS
     # - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
