@@ -1,7 +1,7 @@
 f="__tests__/.env.json"
 
 keyVal() {
-  echo "{$1}: {$2}\n" >> $f
+  echo "${1}: \"${2}\"\n" >> $f
 }
 
 echo "{" > $f
