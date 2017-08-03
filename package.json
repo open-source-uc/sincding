@@ -11,7 +11,7 @@
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
     "test": "jest",
-    "lint": "eslint --fix ./src ./lib",
+    "lint": "eslint --fix ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh"
   },
   "author": {
