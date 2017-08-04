@@ -29,7 +29,7 @@ describe("sincding", () => {
     expect(session.password).toBeTruthy()
   })
 
-  // it("logins", async () => {
-  //   await session.login()
-  // })
+  it("performs login", async () => {
+    await session.login()
+  })
 })
