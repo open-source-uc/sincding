@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 const prompt = require("prompt")
 const fs = require("fs")
 const os = require("os")
@@ -109,7 +107,9 @@ const sync = async data => {
 const loadUserData = () => {
   let userData = null
   try {
-    userData = require(`${userDataFolder}/data.json`)
+    userData = JSON.parse(
+      fs.readFileSync(`${userDataFolder}/data.json`, "utf8")
+    )
   } catch (err) {
     console.error("Could't load user data")
   }

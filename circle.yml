@@ -4,13 +4,15 @@ machine:
 
 dependencies:
   pre:
-    - npm install -g pkg
+    # - npm install -g pkg
     - npm i -g yarn
   cache_directories:
     - node_modules
+    - yarn.lock
 
 test:
   pre:
+    - yarn
     - yarn run lint
   override:
     - yarn test
