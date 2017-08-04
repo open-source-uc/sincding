@@ -15,7 +15,7 @@ test:
   pre:
     - greenkeeper-lockfile-update
     - yarn
-    - yarn run lint
+    - yarn lint
   override:
     - yarn test
   post:
