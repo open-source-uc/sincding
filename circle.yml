@@ -14,7 +14,7 @@ test:
     - yarn run lint
   override:
     - ./scripts/env_file.sh
-    - yarn test
+    - if [[ $UC_USERNAME && $UC_PASSWORD ]]; then yarn test; else echo "ERROR: NO CREDENTIALS"; exit 1; fi
   post:
     # - pkg package.json --out-dir $CIRCLE_ARTIFACTS
     # - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
