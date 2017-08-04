@@ -4,6 +4,7 @@
 
 [![CircleCI](https://circleci.com/gh/open-source-uc/sincding.svg?style=svg)](https://circleci.com/gh/open-source-uc/sincding)
 [![npm version](https://badge.fury.io/js/sincding.svg)](https://badge.fury.io/js/sincding)
+[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![dependencies](https://david-dm.org/open-source-uc/sincding.svg)](https://david-dm.org/open-source-uc/sincding)
 
 Sincding allows you to download the files from uc siding in an easy way
@@ -15,20 +16,14 @@ You must have [node](https://nodejs.org) installed to use this (version >= 8)
 
 Install with
 ```bash
-# with yarn:
-yarn global add sincding
-
-# with npm:
 npm install -g sincding
 ```
 
 And then just run
 ```bash
+# Run full program
 sincding
-```
-
-Or if you want to just update your files quickly you can run
-```bash
+# Update files quickly
 sincding sync
 ```
 
@@ -40,40 +35,47 @@ On the first run you will be prompted for credentials
 
 The credentials are stored in your Home directory on `.sincding/data.json`
 
-***
-
 Let's see it in action
 
 ![demo](https://github.com/open-source-uc/sincding/blob/assets/demo.gif)
 
 ***
 
-## Development
+# Development
 
-Clone the repo
+Follow this script
 ```bash
+# Clone the repo
 git clone https://github.com/open-source-uc/sincding.git
-```
-
-Install dependencies
-```bash
-# with yarn:
+# Cd into directory
+cd sincding
+# Install dependencies
 yarn
-
-# with npm:
-npm i
 ```
 
-To test you have two options
+Run tests
 ```bash
-# run from project folder
-npm start
-# or
-node src/index.js
+yarn test
+```
 
-# or link it to run it from everywhere
+Run program
+```bash
+# Run from project folder
+yarn start
+
+# Link it to run it from everywhere
 npm link
 sincding
+```
+
+### Tests
+
+In order for tests to pass you must create a `.env.json` file in `./__tests__` like this
+```json
+{
+  "username": "YOUR_UC_USERNAME",
+  "password": "YOUR_UC_PASSWORD"
+}
 ```
 
 Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/dev/CONTRIBUTING.md)

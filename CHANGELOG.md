@@ -5,12 +5,22 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
-[//]: ### (Added)
-[//]: ### (Changed)
-[//]: ### (Deprecated)
-[//]: ### (Removed)
-[//]: ### (Fixed)
-[//]: ### (Security)
+<!---
+### Added
+### Changed
+### Deprecated
+### Removed
+### Fixed
+### Security
+-->
+
+### Changed
+- Updated Changelog [@negebauer]
+- Updated and applied Eslint config [@negebauer]
+
+## [1.2.0] - 2017-07-31
+### Changed
+- Update siding url to 2017-2 [@negebauer]
 
 ## [1.2.0] - 2017-06-16
 ### Added
@@ -78,7 +88,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Main app [@negebauer]
 - Yarn support [@mrpatiwi]
 
-[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.0...HEAD
+[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.1...HEAD
+[1.2.1]: https://github.com/open-source-uc/sincding/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/open-source-uc/sincding/compare/v1.1.4...v1.2.0
 [1.1.4]: https://github.com/open-source-uc/sincding/compare/v1.1.3...v1.1.4
 [1.1.3]: https://github.com/open-source-uc/sincding/compare/v1.1.2...v1.1.3

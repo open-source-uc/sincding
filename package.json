@@ -1,6 +1,6 @@
 {
   "name": "sincding",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "CLI to download Siding files",
   "repository": {
     "type": "git",
@@ -10,8 +10,8 @@
   "scripts": {
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
-    "test": "echo 'No tests'",
-    "lint": "eslint --ignore-pattern '!node_modules/*' --fix ./src ./lib",
+    "test": "./scripts/test.sh",
+    "lint": "eslint --fix ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh"
   },
   "author": {
@@ -34,6 +34,7 @@
     "babel-eslint": "^7.1.1",
     "eslint": "^4.1.0",
     "eslint-plugin-babel": "^4.1.1",
-    "eslint-plugin-node": "^5.0.0"
+    "eslint-plugin-node": "^5.0.0",
+    "jest": "^20.0.4"
   }
 }
