@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+### Added
+- [Grenkeeper](https://greenkeeper.io/) integration [@negebauer]
+- Configured test with CircleCI [@negebauer]
+
 ### Changed
 - Updated Changelog [@negebauer]
 - Updated and applied Eslint config [@negebauer]
