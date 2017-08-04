@@ -14,8 +14,8 @@ beforeAll(() => {
     console.error(
       "Credentials required to run tests\nCreate a .env.json file in ./__tests__ as specified in README.md"
     )
-    test("ERROR: No credentials", () => {})
-    process.exit(1)
+    test.one("ERROR: No credentials", () => {})
+    // process.exit(1)
   }
 })
 
