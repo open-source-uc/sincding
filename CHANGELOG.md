@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+## [1.2.2] - 2017-08-3
 ### Added
 - [Grenkeeper](https://greenkeeper.io/) integration [@negebauer]
 - Configured test with CircleCI [@negebauer]
@@ -21,8 +22,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Updated Changelog [@negebauer]
 - Updated and applied Eslint config [@negebauer]
+- Modify retry wait time on course scraping [@negebauer]
 
-## [1.2.0] - 2017-07-31
+## [1.2.1] - 2017-07-31
 ### Changed
 - Update siding url to 2017-2 [@negebauer]
 
