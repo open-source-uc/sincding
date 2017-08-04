@@ -8,6 +8,7 @@ dependencies:
     - npm i -g yarn
   cache_directories:
     - node_modules
+    - yarn.lock
 
 test:
   pre:
