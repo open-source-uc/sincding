@@ -1,3 +1,4 @@
+#!/bin/bash
 if [[ $CIRCLECI ]]; then
   if [[ ! $UC_USERNAME || ! $UC_PASSWORD ]]; then
     echo 'ERROR: No valid credentials'
