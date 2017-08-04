@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const prompt = require("prompt")
 const fs = require("fs")
 const os = require("os")
