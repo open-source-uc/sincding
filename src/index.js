@@ -152,7 +152,7 @@ const runCommand = (userData, command, err) => {
     return run()
   }
   // Execute selected command
-  console.log(`Executing \'${command}\' command`)
+  console.log(`Executing '${command}' command`)
   action(userData)
 }
 
