@@ -95,7 +95,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Yarn support [@mrpatiwi]
 
 [Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.2...HEAD
-[1.2.2]: https://github.com/open-source-uc/sincding/compare/v1.2.1...v.1.2.2
+[1.2.2]: https://github.com/open-source-uc/sincding/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/open-source-uc/sincding/compare/v1.2.0...v1.2.1
 [1.2.0]: https://github.com/open-source-uc/sincding/compare/v1.1.4...v1.2.0
 [1.1.4]: https://github.com/open-source-uc/sincding/compare/v1.1.3...v1.1.4
