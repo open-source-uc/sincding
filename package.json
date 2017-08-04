@@ -10,7 +10,7 @@
   "scripts": {
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
-    "test": "jest --notify",
+    "test": "./scripts/test.sh",
     "lint": "eslint --fix ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh"
   },
