@@ -28,4 +28,8 @@ describe("sincding", () => {
     expect(session.username).toBeTruthy()
     expect(session.password).toBeTruthy()
   })
+
+  // it("logins", async () => {
+  //   await session.login()
+  // })
 })
