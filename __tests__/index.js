@@ -17,12 +17,15 @@ beforeAll(() => {
   }
 })
 
-test("has valid credentials", () => {
-  expect(credentials.username).toBeTruthy()
-  expect(credentials.password).toBeTruthy()
-})
+describe("sincding", () => {
+  let session
 
-test("login", async () => {
-  // const session = new Session(credentials.username, credentials.password)
-  // await session.login()
+  beforeAll(() => {
+    session = new Session(credentials.username, credentials.password)
+  })
+
+  it("has valid credentials", () => {
+    expect(session.username).toBeTruthy()
+    expect(session.password).toBeTruthy()
+  })
 })
