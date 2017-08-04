@@ -6,17 +6,20 @@ dependencies:
   pre:
     # - npm install -g pkg
     - npm i -g yarn
+    - yarn global add greenkeeper-lockfile
   cache_directories:
     - node_modules
     - yarn.lock
 
 test:
   pre:
+    - greenkeeper-lockfile-update
     - yarn
     - yarn run lint
   override:
     - yarn test
   post:
+    - greenkeeper-lockfile-upload
     # - pkg package.json --out-dir $CIRCLE_ARTIFACTS
     # - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
 
