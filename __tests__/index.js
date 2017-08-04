@@ -14,7 +14,6 @@ beforeAll(() => {
     console.error(
       "Credentials required to run tests\nCreate a .env.json file in ./__tests__ as specified in README.md"
     )
-    test.one("ERROR: No credentials", () => {})
   }
 })
 
@@ -23,7 +22,7 @@ test("has valid credentials", () => {
   expect(credentials.password).toBeTruthy()
 })
 
-// test("logins", async () => {
-//   const session = new Session(credentials.username, credentials.password)
-//   await session.login()
-// })
+test("login", async () => {
+  // const session = new Session(credentials.username, credentials.password)
+  // await session.login()
+})
