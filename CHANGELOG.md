@@ -14,11 +14,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
-## [1.2.3] - 2017-08-3
+## [1.2.4] - 2017-08-09
+
+### Changed
+- Up wait time on folder scrap [@negebauer]
+
+### Fixed
+- Retry folder scrap logic [@negebauer]
+
+## [1.2.3] - 2017-08-03
 ### Added
 - Specify node env on `src/index.js` [@negebauer]
 
-## [1.2.2] - 2017-08-3
+## [1.2.2] - 2017-08-03
 ### Added
 - [Grenkeeper](https://greenkeeper.io/) integration [@negebauer]
 - Configured test with CircleCI [@negebauer]
