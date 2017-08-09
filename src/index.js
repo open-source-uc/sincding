@@ -173,8 +173,8 @@ const optionsDescriptions = {
   exit: "Exit sincding",
 }
 
-const updateCheckInterval = 1000 * 60 * 60
-updateNotifier({ pkg, updateCheckInterval }).notify() // 1 hour
+const updateCheckInterval = 1000 * 30
+updateNotifier({ pkg, updateCheckInterval }).notify() // 30 second
 console.log("Welcome to sincding!")
 console.log(`Version ${pkg.version}`)
 run()

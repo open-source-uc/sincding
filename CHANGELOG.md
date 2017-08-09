@@ -14,8 +14,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
-## [1.2.4] - 2017-08-09
+## [1.2.5] - 2017-08-09
+### Changed
+- Always check for updates [@negebauer]
 
+## [1.2.4] - 2017-08-09
 ### Changed
 - Up wait time on folder scrap [@negebauer]
 - Wait before starting downloads [@negebauer]
