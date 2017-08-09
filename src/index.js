@@ -7,6 +7,7 @@ const pkg = require("../package.json")
 const Session = require("../lib/session")
 const siding = require("../lib/siding")
 const error = require("../lib/error")
+const wait = require("../lib/wait")
 const log = require("./log")
 
 prompt.colors = false
@@ -95,6 +96,7 @@ const sync = async data => {
     const files = downloads
       .map(download => download.files)
       .reduce((total, arr) => total.concat(arr), [])
+    wait()
     await files.reduce(async (promise, file) => {
       await promise
       return file.download(data.path)

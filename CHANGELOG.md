@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Changed
 - Up wait time on folder scrap [@negebauer]
+- Wait before starting downloads [@negebauer]
 
 ### Fixed
 - Retry folder scrap logic [@negebauer]
