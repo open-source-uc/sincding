@@ -14,6 +14,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+## [1.2.6] - 2017-08-09
+### Added
+- Retry downloads [@negebauer]
+
 ## [1.2.5] - 2017-08-09
 ### Changed
 - Always check for updates [@negebauer]
