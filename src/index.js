@@ -99,9 +99,9 @@ const sync = async data => {
       .map(download => download.files)
       .reduce((total, arr) => total.concat(arr), [])
     wait()
-    await files.reduce(async (promise, file) => {
+    await files.reduce(async (promise, file, i) => {
       await promise
-      return file.download(data.path)
+      return file.download(data.path, i + 1, files.length)
     }, Promise.resolve())
     console.log("\nFinished downloading!")
   } catch (err) {
