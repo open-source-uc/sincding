@@ -3,6 +3,7 @@ const prompt = require("prompt")
 const fs = require("fs")
 const os = require("os")
 const updateNotifier = require("update-notifier")
+const Table = require("cli-table")
 const pkg = require("../package.json")
 const Session = require("../lib/session")
 const siding = require("../lib/siding")
@@ -78,15 +79,28 @@ const sync = async data => {
     log.coursesFound(courses)
     await Promise.all(courses.map(course => course.scrap()))
     const downloads = courses.map(c => ({
-      name: c.name,
+      name: c.fullName(),
       folders: Object.keys(c.folders)
         .filter(id => c.folders[id].shouldCreate(data.path))
         .map(id => c.folders[id]),
+      foldersAll: Object.keys(c.folders),
       files: Object.keys(c.files)
         .filter(id => c.files[id].shouldDownload(data.path))
         .map(id => c.files[id]),
+      filesAll: Object.keys(c.files),
     }))
-    log.coursesFiles(courses, downloads)
+    const preview = new Table({
+      head: ["Course", "Files", "Files"],
+    })
+    downloads.forEach(d => {
+      preview.push([
+        d.name,
+        `${d.files.length} (${d.filesAll.length})`,
+        `${d.folders.length} (${d.foldersAll.length})`,
+      ])
+    })
+    console.log("")
+    console.log(preview.toString())
 
     console.log("\nCreating missing folders...")
     courses.forEach(course => course.createFolder(data.path))
