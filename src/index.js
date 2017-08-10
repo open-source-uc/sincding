@@ -91,8 +91,16 @@ const sync = async data => {
     log.downloadPreview(downloads)
 
     console.log("\nCreating missing folders...")
-    courses.forEach(course => course.createFolder(data.path))
-    downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
+    courses.forEach(course => {
+      course.createFolder(data.path)
+      console.log(`${course.fullName()}`)
+    })
+    downloads.forEach(d =>
+      d.folders.forEach(f => {
+        f.create(data.path)
+        console.log(`${f.parentAcronym()} - ${f.name}`)
+      })
+    )
 
     console.log("\nStarting downloads, this may take a while...")
     const files = downloads
