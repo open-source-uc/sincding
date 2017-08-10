@@ -78,28 +78,38 @@ const sync = async data => {
     log.coursesFound(courses)
     await Promise.all(courses.map(course => course.scrap()))
     const downloads = courses.map(c => ({
-      name: c.name,
+      name: c.fullName(),
       folders: Object.keys(c.folders)
         .filter(id => c.folders[id].shouldCreate(data.path))
         .map(id => c.folders[id]),
+      foldersAll: Object.keys(c.folders),
       files: Object.keys(c.files)
         .filter(id => c.files[id].shouldDownload(data.path))
         .map(id => c.files[id]),
+      filesAll: Object.keys(c.files),
     }))
-    log.coursesFiles(courses, downloads)
+    log.downloadPreview(downloads)
 
     console.log("\nCreating missing folders...")
-    courses.forEach(course => course.createFolder(data.path))
-    downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))
+    courses.forEach(course => {
+      course.createFolder(data.path)
+      console.log(`${course.fullName()}`)
+    })
+    downloads.forEach(d =>
+      d.folders.forEach(f => {
+        f.create(data.path)
+        console.log(`${f.parentAcronym()} - ${f.name}`)
+      })
+    )
 
     console.log("\nStarting downloads, this may take a while...")
     const files = downloads
       .map(download => download.files)
       .reduce((total, arr) => total.concat(arr), [])
     wait()
-    await files.reduce(async (promise, file) => {
+    await files.reduce(async (promise, file, i) => {
       await promise
-      return file.download(data.path)
+      return file.download(data.path, i + 1, files.length)
     }, Promise.resolve())
     console.log("\nFinished downloading!")
   } catch (err) {
