@@ -13,6 +13,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Security
 -->
+
+## [1.2.8] - 2017-08-10
+### Fix
+- Only log folder on creation [@negebauer]
+
 ## [1.2.7] - 2017-08-10
 ### Added
 - Download preview table [@negebauer]
@@ -121,7 +126,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Main app [@negebauer]
 - Yarn support [@mrpatiwi]
 
-[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.6...HEAD
+[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.8...HEAD
+[1.2.8]: https://github.com/open-source-uc/sincding/compare/v1.2.7...v1.2.8
+[1.2.7]: https://github.com/open-source-uc/sincding/compare/v1.2.6...v1.2.7
 [1.2.6]: https://github.com/open-source-uc/sincding/compare/v1.2.5...v1.2.6
 [1.2.5]: https://github.com/open-source-uc/sincding/compare/v1.2.4...v1.2.5
 [1.2.4]: https://github.com/open-source-uc/sincding/compare/v1.2.3...v1.2.4
