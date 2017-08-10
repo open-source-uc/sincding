@@ -3,7 +3,6 @@ const prompt = require("prompt")
 const fs = require("fs")
 const os = require("os")
 const updateNotifier = require("update-notifier")
-const Table = require("cli-table")
 const pkg = require("../package.json")
 const Session = require("../lib/session")
 const siding = require("../lib/siding")
@@ -89,18 +88,7 @@ const sync = async data => {
         .map(id => c.files[id]),
       filesAll: Object.keys(c.files),
     }))
-    const preview = new Table({
-      head: ["Course", "Files", "Files"],
-    })
-    downloads.forEach(d => {
-      preview.push([
-        d.name,
-        `${d.files.length} (${d.filesAll.length})`,
-        `${d.folders.length} (${d.foldersAll.length})`,
-      ])
-    })
-    console.log("")
-    console.log(preview.toString())
+    log.downloadPreview(downloads)
 
     console.log("\nCreating missing folders...")
     courses.forEach(course => course.createFolder(data.path))
