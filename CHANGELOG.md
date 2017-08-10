@@ -114,7 +114,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Main app [@negebauer]
 - Yarn support [@mrpatiwi]
 
-[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.3...HEAD
+[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.6...HEAD
+[1.2.6]: https://github.com/open-source-uc/sincding/compare/v1.2.5...v1.2.6
+[1.2.5]: https://github.com/open-source-uc/sincding/compare/v1.2.4...v1.2.5
+[1.2.4]: https://github.com/open-source-uc/sincding/compare/v1.2.3...v1.2.4
 [1.2.3]: https://github.com/open-source-uc/sincding/compare/v1.2.2...v1.2.3
 [1.2.2]: https://github.com/open-source-uc/sincding/compare/v1.2.1...v1.2.2
 [1.2.1]: https://github.com/open-source-uc/sincding/compare/v1.2.0...v1.2.1
