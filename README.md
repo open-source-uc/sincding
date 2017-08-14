@@ -2,6 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/open-source-uc/sincding.svg?style=svg)](https://circleci.com/gh/open-source-uc/sincding)
 [![npm version](https://badge.fury.io/js/sincding.svg)](https://badge.fury.io/js/sincding)
+[![BCH compliance](https://bettercodehub.com/edge/badge/open-source-uc/sincding?branch=dev)](https://bettercodehub.com/)
 [![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
 [![Greenkeeper badge](https://badges.greenkeeper.io/open-source-uc/sincding.svg)](https://greenkeeper.io/)
 [![dependencies](https://david-dm.org/open-source-uc/sincding.svg)](https://david-dm.org/open-source-uc/sincding)
