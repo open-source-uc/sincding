@@ -11,7 +11,7 @@
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
     "test": "jest",
-    "testWatch": "jest --notify --watchAll",
+    "test:watch": "jest --notify --watch",
     "lint": "eslint ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh"
   },
@@ -31,6 +31,9 @@
   },
   "bin": {
     "sincding": "src/index.js"
+  },
+  "jest": {
+    "testEnvironment": "node"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
