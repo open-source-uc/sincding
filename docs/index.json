@@ -1,0 +1,2426 @@
+[
+  {
+    "__docId__": 0,
+    "kind": "file",
+    "name": "sincding/lib/course.js",
+    "content": "const cheerio = require(\"cheerio\")\nconst fs = require(\"fs\")\nconst axios = require(\"axios\")\nconst urls = require(\"./urls\")\nconst folder = require(\"./folder\")\nconst file = require(\"./file\")\nconst format = require(\"./format\")\nconst error = require(\"./error\")\nconst wait = require(\"./wait\")\nconst log = require(\"./log\")\n\nclass Course {\n  constructor(id, acronym, name) {\n    this.id = id\n    this.acronym = acronym\n    this.name = name\n    this.url = urls.courseURL(id)\n    this.folders = {}\n    this.files = {}\n  }\n\n  fullName() {\n    return `${this.acronym} ${this.name}`\n  }\n\n  async scrap() {\n    this.folders = {}\n    this.files = {}\n    await this.scrapFolder(this)\n  }\n\n  async scrapFolder(folder, repeat = 0) {\n    try {\n      const html = (await axios.get(folder.url)).data\n      log(`r:${repeat} Parsing ${folder.name}`)\n      const newFolders = this.searchFoldersAndFiles(html, folder)\n      await newFolders.reduce(async (promise, folder) => {\n        await promise\n        wait()\n        return this.scrapFolder(folder)\n      }, Promise.resolve())\n    } catch (err) {\n      if (err.response.status === 500 && repeat < 5) {\n        for (let i = 0; i < repeat; i++) {\n          wait()\n        }\n        return this.scrapFolder(folder, repeat + 1)\n      }\n      const message = `\\n\n       name: ${folder.name}\n       url: ${folder.url}\n       repeat: ${repeat}`\n      error(err.message + message, \"scrapFolder\")\n    }\n  }\n\n  searchFoldersAndFiles(html, parent) {\n    const $ = cheerio.load(html)\n    const newFolders = []\n    $(\"a\").each((i, l) => {\n      const link = $(l).attr(\"href\")\n      const name = $(l).text()\n      if (link.indexOf(\"acc_carp\") !== -1) {\n        const linkId = link.match(/id_carpeta=\\d+/g)[0].split(\"=\")[1]\n        if (this.folders[linkId]) {\n          return\n        }\n        const newFolder = new folder(\n          linkId,\n          name,\n          urls.courseFolderURL(link),\n          parent\n        )\n        newFolders.push(newFolder)\n        this.folders[linkId] = newFolder\n      } else if (link.indexOf(\"id_archivo\") !== -1) {\n        const linkId = link.match(/id_archivo=\\d+/g)[0].split(\"=\")[1]\n        if (this.files[linkId]) {\n          return\n        }\n        const newFile = new file(linkId, name, urls.courseFileURL(link), parent)\n        this.files[linkId] = newFile\n      }\n    })\n    return newFolders\n  }\n\n  path(path = \"\") {\n    const parentPath = (path !== \"\" && path + \"/\") || \"\"\n    return parentPath + this.acronym + \" \" + format.nameCleaned(this.name)\n  }\n\n  createFolder(path) {\n    try {\n      fs.mkdirSync(this.path(path))\n      log(`${this.fullName()}`)\n    } catch (err) {\n      if (err.code === \"EEXIST\") {\n        return // Do nothing\n      }\n      error(err, \"Creating course folder\")\n    }\n  }\n}\n\nmodule.exports = Course\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/course.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 1,
+    "kind": "variable",
+    "name": "cheerio",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~cheerio",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 2,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 3,
+    "kind": "variable",
+    "name": "axios",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~axios",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 4,
+    "kind": "variable",
+    "name": "urls",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~urls",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 5,
+    "kind": "variable",
+    "name": "folder",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~folder",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 6,
+    "kind": "variable",
+    "name": "file",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~file",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 7,
+    "kind": "variable",
+    "name": "format",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~format",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 8,
+    "kind": "variable",
+    "name": "error",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~error",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 9,
+    "kind": "variable",
+    "name": "wait",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~wait",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 10,
+    "kind": "variable",
+    "name": "log",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 11,
+    "kind": "class",
+    "name": "Course",
+    "memberof": "sincding/lib/course.js",
+    "static": true,
+    "longname": "sincding/lib/course.js~Course",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/course.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 12,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "sincding/lib/course.js~Course",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true
+  },
+  {
+    "__docId__": 13,
+    "kind": "member",
+    "name": "id",
+    "memberof": "sincding/lib/course.js~Course",
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#id",
+    "access": "public",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 14,
+    "kind": "member",
+    "name": "acronym",
+    "memberof": "sincding/lib/course.js~Course",
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#acronym",
+    "access": "public",
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 15,
+    "kind": "member",
+    "name": "name",
+    "memberof": "sincding/lib/course.js~Course",
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#name",
+    "access": "public",
+    "description": null,
+    "lineNumber": 16,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 16,
+    "kind": "member",
+    "name": "url",
+    "memberof": "sincding/lib/course.js~Course",
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#url",
+    "access": "public",
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 17,
+    "kind": "member",
+    "name": "folders",
+    "memberof": "sincding/lib/course.js~Course",
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#folders",
+    "access": "public",
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 18,
+    "kind": "member",
+    "name": "files",
+    "memberof": "sincding/lib/course.js~Course",
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#files",
+    "access": "public",
+    "description": null,
+    "lineNumber": 19,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{}"
+      ]
+    }
+  },
+  {
+    "__docId__": 19,
+    "kind": "method",
+    "name": "fullName",
+    "memberof": "sincding/lib/course.js~Course",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#fullName",
+    "access": "public",
+    "description": null,
+    "lineNumber": 22,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "string"
+      ]
+    }
+  },
+  {
+    "__docId__": 20,
+    "kind": "method",
+    "name": "scrap",
+    "memberof": "sincding/lib/course.js~Course",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#scrap",
+    "access": "public",
+    "description": null,
+    "lineNumber": 26,
+    "undocument": true,
+    "params": [],
+    "return": null
+  },
+  {
+    "__docId__": 23,
+    "kind": "method",
+    "name": "scrapFolder",
+    "memberof": "sincding/lib/course.js~Course",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#scrapFolder",
+    "access": "public",
+    "description": null,
+    "lineNumber": 32,
+    "undocument": true,
+    "params": [
+      {
+        "name": "folder",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "repeat",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 0,
+        "defaultValue": "0"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 24,
+    "kind": "method",
+    "name": "searchFoldersAndFiles",
+    "memberof": "sincding/lib/course.js~Course",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#searchFoldersAndFiles",
+    "access": "public",
+    "description": null,
+    "lineNumber": 57,
+    "undocument": true,
+    "params": [
+      {
+        "name": "html",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "parent",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 25,
+    "kind": "method",
+    "name": "path",
+    "memberof": "sincding/lib/course.js~Course",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#path",
+    "access": "public",
+    "description": null,
+    "lineNumber": 88,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "optional": true,
+        "types": [
+          "string"
+        ],
+        "defaultRaw": "",
+        "defaultValue": ""
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 26,
+    "kind": "method",
+    "name": "createFolder",
+    "memberof": "sincding/lib/course.js~Course",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/course.js~Course#createFolder",
+    "access": "public",
+    "description": null,
+    "lineNumber": 93,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 27,
+    "kind": "file",
+    "name": "sincding/lib/error.js",
+    "content": "const pkg = require(\"../package.json\")\nconst log = require(\"./log\")\n\nconst error = (msg, context) => {\n  const error = `\n--- ${pkg.version} ERROR ${context}\n      ${msg}\n\n  If necessary, please report this problem here\n    https://github.com/open-source-uc/sincding/issues\n-----\n  `\n  log(error)\n}\n\nmodule.exports = error\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/error.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 28,
+    "kind": "variable",
+    "name": "pkg",
+    "memberof": "sincding/lib/error.js",
+    "static": true,
+    "longname": "sincding/lib/error.js~pkg",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/error.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 29,
+    "kind": "variable",
+    "name": "log",
+    "memberof": "sincding/lib/error.js",
+    "static": true,
+    "longname": "sincding/lib/error.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/error.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 30,
+    "kind": "function",
+    "name": "error",
+    "memberof": "sincding/lib/error.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/lib/error.js~error",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/error.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "params": [
+      {
+        "name": "msg",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "context",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 31,
+    "kind": "file",
+    "name": "sincding/lib/file.js",
+    "content": "const fs = require(\"fs\")\nconst axios = require(\"axios\")\nconst format = require(\"./format\")\nconst error = require(\"./error\")\nconst wait = require(\"./wait\")\nconst log = require(\"./log\")\n\nclass File {\n  constructor(id, name, url, parent) {\n    this.id = id\n    this.name = name\n    this.url = url\n    this.parent = parent\n  }\n\n  path(path) {\n    return this.parent.path(path) + \"/\" + format.nameCleaned(this.name)\n  }\n\n  shouldDownload(path) {\n    if (fs.existsSync(path + \"/\" + this.path())) {\n      return false\n    }\n    return true\n  }\n\n  async download(path, i, n, repeat = 0) {\n    let data\n    try {\n      data = (await axios.get(this.url, {\n        transformResponse: data => data,\n      })).data\n      log(\n        `r:${repeat} ${i}/${n} ${this.parentAcronym()} ${this.parent.name.trim()}/${this\n          .name}`\n      )\n      fs.writeFile(this.path(path), data, { encoding: null }, err => {\n        if (err) {\n          const message = `\\n\n            name: ${this.name}\n            path: ${this.path(path)}\n            ur: ${this.url}\n          `\n          error(err.message + message, \"download\")\n        }\n      })\n    } catch (err) {\n      if (err.response.status === 500 && repeat < 5) {\n        for (let i = 0; i < repeat; i++) {\n          wait()\n        }\n        return this.download(path, i, n, repeat + 1)\n      }\n      const message = `\\n\n       name: ${this.name}\n       url: ${this.url}\n       repeat: ${repeat}`\n      error(err.message + message, \"file download\")\n    }\n  }\n\n  parentAcronym() {\n    if (!this.parent.acronym) {\n      return this.parent.parentAcronym()\n    }\n    return this.parent.acronym\n  }\n}\n\nmodule.exports = File\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/file.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 32,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "sincding/lib/file.js",
+    "static": true,
+    "longname": "sincding/lib/file.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 33,
+    "kind": "variable",
+    "name": "axios",
+    "memberof": "sincding/lib/file.js",
+    "static": true,
+    "longname": "sincding/lib/file.js~axios",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 34,
+    "kind": "variable",
+    "name": "format",
+    "memberof": "sincding/lib/file.js",
+    "static": true,
+    "longname": "sincding/lib/file.js~format",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 35,
+    "kind": "variable",
+    "name": "error",
+    "memberof": "sincding/lib/file.js",
+    "static": true,
+    "longname": "sincding/lib/file.js~error",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 36,
+    "kind": "variable",
+    "name": "wait",
+    "memberof": "sincding/lib/file.js",
+    "static": true,
+    "longname": "sincding/lib/file.js~wait",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 37,
+    "kind": "variable",
+    "name": "log",
+    "memberof": "sincding/lib/file.js",
+    "static": true,
+    "longname": "sincding/lib/file.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 38,
+    "kind": "class",
+    "name": "File",
+    "memberof": "sincding/lib/file.js",
+    "static": true,
+    "longname": "sincding/lib/file.js~File",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/file.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 39,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "sincding/lib/file.js~File",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/file.js~File#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true
+  },
+  {
+    "__docId__": 40,
+    "kind": "member",
+    "name": "id",
+    "memberof": "sincding/lib/file.js~File",
+    "static": false,
+    "longname": "sincding/lib/file.js~File#id",
+    "access": "public",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 41,
+    "kind": "member",
+    "name": "name",
+    "memberof": "sincding/lib/file.js~File",
+    "static": false,
+    "longname": "sincding/lib/file.js~File#name",
+    "access": "public",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 42,
+    "kind": "member",
+    "name": "url",
+    "memberof": "sincding/lib/file.js~File",
+    "static": false,
+    "longname": "sincding/lib/file.js~File#url",
+    "access": "public",
+    "description": null,
+    "lineNumber": 12,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 43,
+    "kind": "member",
+    "name": "parent",
+    "memberof": "sincding/lib/file.js~File",
+    "static": false,
+    "longname": "sincding/lib/file.js~File#parent",
+    "access": "public",
+    "description": null,
+    "lineNumber": 13,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 44,
+    "kind": "method",
+    "name": "path",
+    "memberof": "sincding/lib/file.js~File",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/file.js~File#path",
+    "access": "public",
+    "description": null,
+    "lineNumber": 16,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 45,
+    "kind": "method",
+    "name": "shouldDownload",
+    "memberof": "sincding/lib/file.js~File",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/file.js~File#shouldDownload",
+    "access": "public",
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 46,
+    "kind": "method",
+    "name": "download",
+    "memberof": "sincding/lib/file.js~File",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "sincding/lib/file.js~File#download",
+    "access": "public",
+    "description": null,
+    "lineNumber": 27,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "i",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "n",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "repeat",
+        "optional": true,
+        "types": [
+          "number"
+        ],
+        "defaultRaw": 0,
+        "defaultValue": "0"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 47,
+    "kind": "method",
+    "name": "parentAcronym",
+    "memberof": "sincding/lib/file.js~File",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/file.js~File#parentAcronym",
+    "access": "public",
+    "description": null,
+    "lineNumber": 62,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 48,
+    "kind": "file",
+    "name": "sincding/lib/folder.js",
+    "content": "const fs = require(\"fs\")\nconst format = require(\"./format\")\nconst error = require(\"./error\")\nconst log = require(\"./log\")\n\nclass Folder {\n  constructor(id, name, url, parent) {\n    this.id = id\n    this.name = name\n    this.url = url\n    this.parent = parent\n  }\n\n  path(path) {\n    return this.parent.path(path) + \"/\" + format.nameCleaned(this.name)\n  }\n\n  shouldCreate(path) {\n    if (fs.existsSync(this.path(path))) {\n      return false\n    }\n    return true\n  }\n\n  create(path) {\n    try {\n      fs.mkdirSync(this.path(path))\n      log(`${this.parentAcronym()} - ${this.name}`)\n    } catch (err) {\n      error(err, \"Creating folder\")\n    }\n  }\n\n  parentAcronym() {\n    if (!this.parent.acronym) {\n      return this.parent.parentAcronym()\n    }\n    return this.parent.acronym\n  }\n}\n\nmodule.exports = Folder\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/folder.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 49,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "sincding/lib/folder.js",
+    "static": true,
+    "longname": "sincding/lib/folder.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/folder.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 50,
+    "kind": "variable",
+    "name": "format",
+    "memberof": "sincding/lib/folder.js",
+    "static": true,
+    "longname": "sincding/lib/folder.js~format",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/folder.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 51,
+    "kind": "variable",
+    "name": "error",
+    "memberof": "sincding/lib/folder.js",
+    "static": true,
+    "longname": "sincding/lib/folder.js~error",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/folder.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 52,
+    "kind": "variable",
+    "name": "log",
+    "memberof": "sincding/lib/folder.js",
+    "static": true,
+    "longname": "sincding/lib/folder.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/folder.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 53,
+    "kind": "class",
+    "name": "Folder",
+    "memberof": "sincding/lib/folder.js",
+    "static": true,
+    "longname": "sincding/lib/folder.js~Folder",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/folder.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 54,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true
+  },
+  {
+    "__docId__": 55,
+    "kind": "member",
+    "name": "id",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#id",
+    "access": "public",
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 56,
+    "kind": "member",
+    "name": "name",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#name",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 57,
+    "kind": "member",
+    "name": "url",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#url",
+    "access": "public",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 58,
+    "kind": "member",
+    "name": "parent",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#parent",
+    "access": "public",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 59,
+    "kind": "method",
+    "name": "path",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#path",
+    "access": "public",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 60,
+    "kind": "method",
+    "name": "shouldCreate",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#shouldCreate",
+    "access": "public",
+    "description": null,
+    "lineNumber": 18,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "boolean"
+      ]
+    }
+  },
+  {
+    "__docId__": 61,
+    "kind": "method",
+    "name": "create",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#create",
+    "access": "public",
+    "description": null,
+    "lineNumber": 25,
+    "undocument": true,
+    "params": [
+      {
+        "name": "path",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null
+  },
+  {
+    "__docId__": 62,
+    "kind": "method",
+    "name": "parentAcronym",
+    "memberof": "sincding/lib/folder.js~Folder",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/folder.js~Folder#parentAcronym",
+    "access": "public",
+    "description": null,
+    "lineNumber": 34,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 63,
+    "kind": "file",
+    "name": "sincding/lib/format.js",
+    "content": "class Format {\n  static nameCleaned(name) {\n    return name.replace(/[\\\\/:*?\"><|\\0]/g, \"\").trim()\n  }\n}\n\nmodule.exports = Format\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/format.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 64,
+    "kind": "class",
+    "name": "Format",
+    "memberof": "sincding/lib/format.js",
+    "static": true,
+    "longname": "sincding/lib/format.js~Format",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/format.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 65,
+    "kind": "method",
+    "name": "nameCleaned",
+    "memberof": "sincding/lib/format.js~Format",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/lib/format.js~Format.nameCleaned",
+    "access": "public",
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "params": [
+      {
+        "name": "name",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 66,
+    "kind": "file",
+    "name": "sincding/lib/log.js",
+    "content": "const log = msg => {\n  const test = process.env.TEST\n  const dev = process.env.NODE_ENV == \"development\"\n  const prod = process.env.NODE_ENV == \"production\"\n\n  if (test) {\n    return\n  }\n\n  if (dev || prod) {\n    console.log(msg)\n  }\n}\n\nmodule.exports = log\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/log.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 67,
+    "kind": "function",
+    "name": "log",
+    "memberof": "sincding/lib/log.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/lib/log.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/log.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "params": [
+      {
+        "name": "msg",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 68,
+    "kind": "file",
+    "name": "sincding/lib/session.js",
+    "content": "const request = require(\"request\").defaults({ jar: true })\nconst urls = require(\"./urls\")\nconst axios = require(\"axios\")\nconst log = require(\"./log\")\n\nconst loginFail = { message: \"Login incorrect\\nCheck your credentials\" }\n\nclass Session {\n  constructor(username, password) {\n    this.username = username\n    this.password = password\n  }\n\n  async login() {\n    const body = {\n      login: this.username,\n      passwd: this.password,\n      sw: \"\",\n      sh: \"\",\n      cd: \"\",\n    }\n    log(\"Starting login\")\n    axios.defaults.headers.common[\"Cookie\"] = await new Promise((res, rej) =>\n      request.post({ url: urls.loginURL, form: body }, (err, http) => {\n        try {\n          res(http.headers[\"set-cookie\"][0].replace(\"; path=/\", \"\"))\n        } catch (e) {\n          rej(loginFail)\n        }\n      })\n    )\n    log(\"Checking login\")\n    const response = await axios.get(urls.main)\n    const logged = response.data.indexOf(\"passwd\") === -1\n    if (!logged) {\n      throw loginFail\n    }\n    log(\"Login correct\")\n    return this\n  }\n}\n\nmodule.exports = Session\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/session.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 69,
+    "kind": "variable",
+    "name": "request",
+    "memberof": "sincding/lib/session.js",
+    "static": true,
+    "longname": "sincding/lib/session.js~request",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/session.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 70,
+    "kind": "variable",
+    "name": "urls",
+    "memberof": "sincding/lib/session.js",
+    "static": true,
+    "longname": "sincding/lib/session.js~urls",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/session.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 71,
+    "kind": "variable",
+    "name": "axios",
+    "memberof": "sincding/lib/session.js",
+    "static": true,
+    "longname": "sincding/lib/session.js~axios",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/session.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 72,
+    "kind": "variable",
+    "name": "log",
+    "memberof": "sincding/lib/session.js",
+    "static": true,
+    "longname": "sincding/lib/session.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/session.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 73,
+    "kind": "variable",
+    "name": "loginFail",
+    "memberof": "sincding/lib/session.js",
+    "static": true,
+    "longname": "sincding/lib/session.js~loginFail",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/session.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"message\": string}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 74,
+    "kind": "class",
+    "name": "Session",
+    "memberof": "sincding/lib/session.js",
+    "static": true,
+    "longname": "sincding/lib/session.js~Session",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/session.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 75,
+    "kind": "constructor",
+    "name": "constructor",
+    "memberof": "sincding/lib/session.js~Session",
+    "generator": false,
+    "async": false,
+    "static": false,
+    "longname": "sincding/lib/session.js~Session#constructor",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true
+  },
+  {
+    "__docId__": 76,
+    "kind": "member",
+    "name": "username",
+    "memberof": "sincding/lib/session.js~Session",
+    "static": false,
+    "longname": "sincding/lib/session.js~Session#username",
+    "access": "public",
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 77,
+    "kind": "member",
+    "name": "password",
+    "memberof": "sincding/lib/session.js~Session",
+    "static": false,
+    "longname": "sincding/lib/session.js~Session#password",
+    "access": "public",
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 78,
+    "kind": "method",
+    "name": "login",
+    "memberof": "sincding/lib/session.js~Session",
+    "generator": false,
+    "async": true,
+    "static": false,
+    "longname": "sincding/lib/session.js~Session#login",
+    "access": "public",
+    "description": null,
+    "lineNumber": 14,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 79,
+    "kind": "file",
+    "name": "sincding/lib/siding.js",
+    "content": "const cheerio = require(\"cheerio\")\nconst iconv = require(\"iconv-lite\")\nconst axios = require(\"axios\")\nconst urls = require(\"./urls\")\nconst course = require(\"./course\")\nconst log = require(\"./log\")\n\nclass Siding {\n  static async coursesList(session, ignore = []) {\n    axios.defaults.responseType = \"arraybuffer\"\n    axios.defaults.transformResponse = [\n      data => iconv.decode(data, \"ISO-8859-1\"),\n    ]\n    await session.login()\n    log(\"Getting courses list\")\n    const html = (await axios.get(urls.coursesURL)).data\n    return Siding.coursesListFromHtml(html, ignore)\n  }\n\n  static coursesListFromHtml(html, ignore = []) {\n    log(\"Parsing courses list\")\n    const courses = []\n    const $ = cheerio.load(html)\n    $(\"a\").each((i, l) => {\n      const link = $(l).attr(\"href\")\n      if (link.indexOf(\"id_curso_ic\") === -1) {\n        return\n      }\n      const courseId = link.split(\"id_curso_ic=\")[1]\n      const courseSplit = $(l).text().split(/ s\\.[0-9] /)\n      const courseAcronym = courseSplit[0]\n      if (ignore.indexOf(courseAcronym) !== -1) {\n        return\n      }\n      const courseName = courseSplit[1]\n      courses.push(new course(courseId, courseAcronym, courseName))\n    })\n    return courses\n  }\n}\n\nmodule.exports = Siding\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/siding.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 80,
+    "kind": "variable",
+    "name": "cheerio",
+    "memberof": "sincding/lib/siding.js",
+    "static": true,
+    "longname": "sincding/lib/siding.js~cheerio",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/siding.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 81,
+    "kind": "variable",
+    "name": "iconv",
+    "memberof": "sincding/lib/siding.js",
+    "static": true,
+    "longname": "sincding/lib/siding.js~iconv",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/siding.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 82,
+    "kind": "variable",
+    "name": "axios",
+    "memberof": "sincding/lib/siding.js",
+    "static": true,
+    "longname": "sincding/lib/siding.js~axios",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/siding.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 83,
+    "kind": "variable",
+    "name": "urls",
+    "memberof": "sincding/lib/siding.js",
+    "static": true,
+    "longname": "sincding/lib/siding.js~urls",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/siding.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 84,
+    "kind": "variable",
+    "name": "course",
+    "memberof": "sincding/lib/siding.js",
+    "static": true,
+    "longname": "sincding/lib/siding.js~course",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/siding.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 85,
+    "kind": "variable",
+    "name": "log",
+    "memberof": "sincding/lib/siding.js",
+    "static": true,
+    "longname": "sincding/lib/siding.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/siding.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 86,
+    "kind": "class",
+    "name": "Siding",
+    "memberof": "sincding/lib/siding.js",
+    "static": true,
+    "longname": "sincding/lib/siding.js~Siding",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/siding.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "interface": false,
+    "ignore": true
+  },
+  {
+    "__docId__": 87,
+    "kind": "method",
+    "name": "coursesList",
+    "memberof": "sincding/lib/siding.js~Siding",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "sincding/lib/siding.js~Siding.coursesList",
+    "access": "public",
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "params": [
+      {
+        "name": "session",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "ignore",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 88,
+    "kind": "method",
+    "name": "coursesListFromHtml",
+    "memberof": "sincding/lib/siding.js~Siding",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/lib/siding.js~Siding.coursesListFromHtml",
+    "access": "public",
+    "description": null,
+    "lineNumber": 20,
+    "undocument": true,
+    "params": [
+      {
+        "name": "html",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "ignore",
+        "optional": true,
+        "types": [
+          "*[]"
+        ],
+        "defaultRaw": [],
+        "defaultValue": "[]"
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    }
+  },
+  {
+    "__docId__": 89,
+    "kind": "file",
+    "name": "sincding/lib/urls.js",
+    "content": "const urls = {\n  domain: \"intrawww.ing.puc.cl\",\n  main: \"https://intrawww.ing.puc.cl/siding\",\n  loginURL: \"https://intrawww.ing.puc.cl/siding/index.phtml\",\n  coursesURL:\n    \"https://intrawww.ing.puc.cl/siding/dirdes/ingcursos/cursos/index.phtml?per_lista_cursos=22_2017&acc_inicio=mis_cursos\",\n  courseURL: id =>\n    `https://intrawww.ing.puc.cl/siding/dirdes/ingcursos/cursos/index.phtml?accion_curso=avisos&id_curso_ic=${id}`,\n  courseFolderURL: link =>\n    `https://intrawww.ing.puc.cl/siding/dirdes/ingcursos/cursos/${link}`,\n  courseFileURL: link => `https://intrawww.ing.puc.cl${link}`,\n}\n\nmodule.exports = urls\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/urls.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 90,
+    "kind": "variable",
+    "name": "urls",
+    "memberof": "sincding/lib/urls.js",
+    "static": true,
+    "longname": "sincding/lib/urls.js~urls",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/urls.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"domain\": string, \"main\": string, \"loginURL\": string, \"coursesURL\": string, \"courseURL\": *, \"courseFolderURL\": *, \"courseFileURL\": *}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 91,
+    "kind": "file",
+    "name": "sincding/lib/wait.js",
+    "content": "const wait = () => {\n  const seconds = 0.2\n  const waitTill = new Date(new Date().getTime() + seconds * 1000)\n  while (waitTill > new Date()) {\n    // Do nothing\n  }\n}\n\nmodule.exports = wait\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/lib/wait.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 92,
+    "kind": "function",
+    "name": "wait",
+    "memberof": "sincding/lib/wait.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/lib/wait.js~wait",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/lib/wait.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "params": [],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 93,
+    "kind": "file",
+    "name": "sincding/src/index.js",
+    "content": "#!/usr/bin/env node\nconst prompt = require(\"prompt\")\nconst fs = require(\"fs\")\nconst os = require(\"os\")\nconst updateNotifier = require(\"update-notifier\")\nconst pkg = require(\"../package.json\")\nconst Session = require(\"../lib/session\")\nconst siding = require(\"../lib/siding\")\nconst error = require(\"../lib/error\")\nconst wait = require(\"../lib/wait\")\nconst log = require(\"./log\")\n\nprompt.colors = false\n\nconst userDataFolder = `${os.homedir()}/.sincding`\n\nconst data = (data = {}) => {\n  console.log(\"Let's update your user data\")\n  if (data.username) {\n    console.log(\n      \" For each prompt the value in () is the current one\\n Press enter if you don't want to change it\"\n    )\n  }\n  const schema = {\n    properties: {\n      username: {\n        pattern: /^[a-zA-Z\\d]+$/,\n        message: \"Username without @uc\",\n        required: true,\n        default: data.username || \"\",\n      },\n      password: {\n        required: true,\n        hidden: true,\n        replace: \"*\",\n      },\n      path: {\n        required: true,\n        default: data.path || \"\",\n        conform: path => {\n          if (!fs.existsSync(path)) {\n            console.log(\"The provided path doesn't exist\")\n            return false\n          }\n          return true\n        },\n      },\n      ignore: {\n        pattern: /^[a-zA-Z\\d ]+$/,\n        message: \"Course acronyms separated by a space\",\n        default: (data.ignore || []).join(\" \"),\n      },\n    },\n  }\n  prompt.start()\n  const saveData = (err, result) => {\n    if (!result) {\n      return exit()\n    }\n    const data = Object.assign({}, result, {\n      ignore: result.ignore.split(\" \").map(a => a.toUpperCase()),\n    })\n    if (!fs.existsSync(`${userDataFolder}`)) {\n      fs.mkdirSync(`${userDataFolder}`)\n    }\n    const path = `${userDataFolder}/data.json`\n    const dataJson = JSON.stringify(data)\n    fs.writeFile(path, dataJson, \"utf8\", run)\n    console.log(\"Updated user data\")\n  }\n  prompt.get(schema, saveData)\n}\n\nconst sync = async data => {\n  const session = new Session(data.username, data.password)\n  try {\n    const courses = await siding.coursesList(session, data.ignore)\n    log.coursesFound(courses)\n    await Promise.all(courses.map(course => course.scrap()))\n    const downloads = courses.map(c => ({\n      name: c.fullName(),\n      folders: Object.keys(c.folders)\n        .filter(id => c.folders[id].shouldCreate(data.path))\n        .map(id => c.folders[id]),\n      foldersAll: Object.keys(c.folders),\n      files: Object.keys(c.files)\n        .filter(id => c.files[id].shouldDownload(data.path))\n        .map(id => c.files[id]),\n      filesAll: Object.keys(c.files),\n    }))\n    log.downloadPreview(downloads)\n\n    console.log(\"\\nCreating missing folders...\")\n    courses.forEach(course => course.createFolder(data.path))\n    downloads.forEach(d => d.folders.forEach(f => f.create(data.path)))\n\n    console.log(\"\\nStarting downloads, this may take a while...\")\n    const files = downloads\n      .map(download => download.files)\n      .reduce((total, arr) => total.concat(arr), [])\n    wait()\n    await files.reduce(async (promise, file, i) => {\n      await promise\n      return file.download(data.path, i + 1, files.length)\n    }, Promise.resolve())\n    console.log(\"\\nFinished downloading!\")\n  } catch (err) {\n    error(err.message, \"sync\")\n  }\n}\n\nconst loadUserData = () => {\n  let userData = null\n  try {\n    userData = JSON.parse(\n      fs.readFileSync(`${userDataFolder}/data.json`, \"utf8\")\n    )\n  } catch (err) {\n    console.error(\"Could't load user data\")\n  }\n  return userData\n}\n\nconst run = async () => {\n  console.log(\"\")\n  // Load user data\n  const userData = loadUserData()\n  if (!userData) {\n    return data()\n  }\n  log.logUser(userData)\n  // If a command was supplied in the call, execute it\n  const command = process.argv[2]\n  if (command) {\n    process.argv[2] = \"\"\n    return runCommand(userData, command)\n  }\n  // Show available commands\n  console.log(\"Commands:\")\n  Object.keys(options).forEach(key => {\n    console.log(` - ${key}: ${optionsDescriptions[key]}`)\n  })\n  // Prompt user for command\n  prompt.start()\n  prompt.get([\"command\"], (err, result) =>\n    runCommand(userData, (result || {}).command, err)\n  )\n}\n\nconst runCommand = (userData, command, err) => {\n  if (err) {\n    return options.exit()\n  }\n  const action = options[command]\n  if (!action) {\n    console.log(\"Not a valid command\")\n    return run()\n  }\n  // Execute selected command\n  console.log(`Executing '${command}' command`)\n  action(userData)\n}\n\nconst exit = () => console.log(\"\\nTerminated sincding\")\n\nconst options = {\n  data: data,\n  sync: sync,\n  exit: exit,\n}\n\nconst optionsDescriptions = {\n  data: \"Update your user data\",\n  sync: \"Download sincding files\",\n  exit: \"Exit sincding\",\n}\n\nconst updateCheckInterval = 1000 * 30\nupdateNotifier({ pkg, updateCheckInterval }).notify() // 30 second\nconsole.log(\"Welcome to sincding!\")\nconsole.log(`Version ${pkg.version}`)\nrun()\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/src/index.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 94,
+    "kind": "variable",
+    "name": "prompt",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~prompt",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 2,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 95,
+    "kind": "variable",
+    "name": "fs",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~fs",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 96,
+    "kind": "variable",
+    "name": "os",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~os",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 4,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 97,
+    "kind": "variable",
+    "name": "updateNotifier",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~updateNotifier",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 5,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 98,
+    "kind": "variable",
+    "name": "pkg",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~pkg",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 6,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 99,
+    "kind": "variable",
+    "name": "Session",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~Session",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 7,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 100,
+    "kind": "variable",
+    "name": "siding",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~siding",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 101,
+    "kind": "variable",
+    "name": "error",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~error",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 9,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 102,
+    "kind": "variable",
+    "name": "wait",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~wait",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 10,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 103,
+    "kind": "variable",
+    "name": "log",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~log",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 11,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 104,
+    "kind": "variable",
+    "name": "userDataFolder",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~userDataFolder",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 15,
+    "undocument": true,
+    "type": {
+      "types": [
+        "string"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 105,
+    "kind": "function",
+    "name": "data",
+    "memberof": "sincding/src/index.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/src/index.js~data",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 17,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "optional": true,
+        "types": [
+          "{}"
+        ],
+        "defaultRaw": {},
+        "defaultValue": "{}"
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 106,
+    "kind": "function",
+    "name": "sync",
+    "memberof": "sincding/src/index.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "sincding/src/index.js~sync",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 74,
+    "undocument": true,
+    "params": [
+      {
+        "name": "data",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 107,
+    "kind": "function",
+    "name": "loadUserData",
+    "memberof": "sincding/src/index.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/src/index.js~loadUserData",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 112,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 108,
+    "kind": "function",
+    "name": "run",
+    "memberof": "sincding/src/index.js",
+    "generator": false,
+    "async": true,
+    "static": true,
+    "longname": "sincding/src/index.js~run",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 124,
+    "undocument": true,
+    "params": [],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 109,
+    "kind": "function",
+    "name": "runCommand",
+    "memberof": "sincding/src/index.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/src/index.js~runCommand",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 150,
+    "undocument": true,
+    "params": [
+      {
+        "name": "userData",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "command",
+        "types": [
+          "*"
+        ]
+      },
+      {
+        "name": "err",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 110,
+    "kind": "function",
+    "name": "exit",
+    "memberof": "sincding/src/index.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/src/index.js~exit",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 164,
+    "undocument": true,
+    "params": [],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 111,
+    "kind": "variable",
+    "name": "options",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~options",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 166,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"data\": *, \"sync\": *, \"exit\": *}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 112,
+    "kind": "variable",
+    "name": "optionsDescriptions",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~optionsDescriptions",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 172,
+    "undocument": true,
+    "type": {
+      "types": [
+        "{\"data\": string, \"sync\": string, \"exit\": string}"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 113,
+    "kind": "variable",
+    "name": "updateCheckInterval",
+    "memberof": "sincding/src/index.js",
+    "static": true,
+    "longname": "sincding/src/index.js~updateCheckInterval",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/index.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 178,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 114,
+    "kind": "file",
+    "name": "sincding/src/log.js",
+    "content": "const Table = require(\"cli-table\")\n\nconst coursesFound = courses => {\n  console.log(\"\\nFound courses\")\n  console.log(courses.map(course => ` - ${course.path()}`).join(\"\\n\"), \"\\n\")\n}\n\nconst downloadPreview = downloads => {\n  const preview = new Table({\n    head: [\"Course\", \"Files\", \"Files\"],\n  })\n  downloads.forEach(d => {\n    preview.push([\n      d.name,\n      `${d.files.length} / ${d.filesAll.length}`,\n      `${d.folders.length} / ${d.foldersAll.length}`,\n    ])\n  })\n  console.log(\"\")\n  console.log(preview.toString())\n}\n\nconst logUser = userData => {\n  console.log(\"Current user data\")\n  console.log(`user: ${userData.username}`)\n  console.log(`path: ${userData.path}`)\n  console.log(`ignore: ${(userData.ignore || []).join(\" \")}`)\n  console.log(\"\")\n}\n\nmodule.exports = { coursesFound, downloadPreview, logUser }\n",
+    "static": true,
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/src/log.js",
+    "access": "public",
+    "description": null,
+    "lineNumber": 1
+  },
+  {
+    "__docId__": 115,
+    "kind": "variable",
+    "name": "Table",
+    "memberof": "sincding/src/log.js",
+    "static": true,
+    "longname": "sincding/src/log.js~Table",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/log.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 1,
+    "undocument": true,
+    "type": {
+      "types": [
+        "*"
+      ]
+    },
+    "ignore": true
+  },
+  {
+    "__docId__": 116,
+    "kind": "function",
+    "name": "coursesFound",
+    "memberof": "sincding/src/log.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/src/log.js~coursesFound",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/log.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 3,
+    "undocument": true,
+    "params": [
+      {
+        "name": "courses",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 117,
+    "kind": "function",
+    "name": "downloadPreview",
+    "memberof": "sincding/src/log.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/src/log.js~downloadPreview",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/log.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 8,
+    "undocument": true,
+    "params": [
+      {
+        "name": "downloads",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "__docId__": 118,
+    "kind": "function",
+    "name": "logUser",
+    "memberof": "sincding/src/log.js",
+    "generator": false,
+    "async": false,
+    "static": true,
+    "longname": "sincding/src/log.js~logUser",
+    "access": "public",
+    "export": false,
+    "importPath": "sincding/sincding/src/log.js",
+    "importStyle": null,
+    "description": null,
+    "lineNumber": 23,
+    "undocument": true,
+    "params": [
+      {
+        "name": "userData",
+        "types": [
+          "*"
+        ]
+      }
+    ],
+    "return": null,
+    "ignore": true
+  },
+  {
+    "kind": "index",
+    "content": "# Sincding\n\n[![circleciB]][circleciL]\n[![npmVersionB]][npmVersionL]\n[![npmDownloadsB]][npmDownloadsL]\n[![dependenciesB]][dependenciesL]\n[![greenkeeperB]][greenkeeperL]\n\n[![codeclimateB]][codeclimateL]\n[![coverageB]][coverageL]\n[![codeissuesB]][codeissuesL]\n[![docsB]][docsL]\n[![styleB]][styleL]\n\n**If you aren't familiar with CLI** (command line interface) programs you should check the [video tutorial](https://github.com/open-source-uc/sincding/blob/assets/tutorial.mp4).  \nIf you are, just keep reading.\n\nYou must have [node](https://nodejs.org) installed to use this (version >= 8)\n\nInstall with\n```bash\nnpm install -g sincding\n```\n\nAnd then just run\n```bash\nsincding        # Run full program\nsincding sync   # Update files quickly\n```\n\nOn the first run you will be prompted for credentials\n- **username**: Your uc username without @uc\n- **password**: Your uc password\n- **path**: The absolute path to the folder where you want to download the siding folders and files\n- **ignore**: Space separated acronyms of courses you don't want to download. Usefull for those who are assistants. (example: IIC2154 IIC1103)\n\nThe credentials are stored in your Home directory on `.sincding/data.json`\n\nLet's see it in action\n\n![demo](https://github.com/open-source-uc/sincding/blob/assets/demo.gif)\n\n***\n\n# Development\n\nFollow this script\n```bash\ngit clone https://github.com/open-source-uc/sincding.git # Clone the repo\ncd sincding     # Cd into directory\nyarn            # Install dependencies\n```\n\nRun tests\n```bash\nyarn test\n```\n\nRun program\n```bash\nyarn start    # Run from project folder\n\nnpm link      # Link it\nsincding      # Run from anywhere\n```\n\n### Tests\n\nIn order for tests to pass you must create a `.env.json` file in `./__tests__` like this\n```json\n{\n  \"username\": \"YOUR_UC_USERNAME\",\n  \"password\": \"YOUR_UC_PASSWORD\"\n}\n```\n\nCheck the [contributing guide](https://github.com/open-source-uc/sincding/blob/dev/CONTRIBUTING.md)\n\n<!-- Badges -->\n[circleciL]:https://circleci.com/gh/open-source-uc/sincding\n[circleciB]:https://circleci.com/gh/open-source-uc/sincding.svg?style=svg\n\n[npmDownloadsL]:https://www.npmjs.com/package/sincding\n[npmDownloadsB]:https://img.shields.io/npm/dt/sincding.svg\n\n[npmVersionL]:https://www.npmjs.com/package/sincding\n[npmVersionB]:https://img.shields.io/npm/v/sincding.svg\n\n[dependenciesL]:https://david-dm.org/open-source-uc/sincding\n[dependenciesB]:https://david-dm.org/open-source-uc/sincding.svg\n\n[greenkeeperL]:https://account.greenkeeper.io/account/open-source-uc\n[greenkeeperB]:https://badges.greenkeeper.io/open-source-uc/sincding.svg\n\n[styleL]:https://github.com/prettier/prettier\n[styleB]:https://img.shields.io/badge/code%20style-prettier-brightgreen.svg?style=flat\n\n[codeclimateL]:https://codeclimate.com/github/open-source-uc/sincding\n[codeclimateB]:https://codeclimate.com/github/open-source-uc/sincding/badges/gpa.svg\n\n[coverageL]:https://codeclimate.com/github/open-source-uc/sincding/coverage\n[coverageB]:https://codeclimate.com/github/open-source-uc/sincding/badges/coverage.svg\n\n[codeissuesL]:https://codeclimate.com/github/open-source-uc/sincding\n[codeissuesB]:https://img.shields.io/codeclimate/issues/github/open-source-uc/sincding.svg\n\n[docsL]:./docs\n[docsB]:https://github.com/open-source-uc/sincding/blob/dev/docs/badge.svg\n",
+    "longname": "/Users/Nico/Documents/open-source-uc/sincding/README.md",
+    "name": "./README.md",
+    "static": true,
+    "access": "public"
+  }
+]

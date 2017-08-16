@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <base data-ice="baseUrl" href="../../../">
+  <title data-ice="title">sincding/src/index.js | sincding</title>
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/prettify-tomorrow.css">
+  <script src="script/prettify/prettify.js"></script>
+  <script src="script/manual.js"></script>
+<meta name="description" content="CLI to download Siding files"><meta property="twitter:card" content="summary"><meta property="twitter:title" content="sincding"><meta property="twitter:description" content="CLI to download Siding files"></head>
+<body class="layout-container" data-ice="rootContainer">
+
+<header>
+  <a href="./">Home</a>
+  
+  <a href="identifiers.html">Reference</a>
+  <a href="source.html">Source</a>
+  
+  <div class="search-box">
+  <span>
+    <img src="./image/search.png">
+    <span class="search-input-edge"></span><input class="search-input"><span class="search-input-edge"></span>
+  </span>
+    <ul class="search-result"></ul>
+  </div>
+<a style="position:relative; top:3px;" href="https://github.com/open-source-uc/sincding"><img width="20px" src="./image/github.png"></a></header>
+
+<nav class="navigation" data-ice="nav"><div>
+  <ul>
+    
+  </ul>
+</div>
+</nav>
+
+<div class="content" data-ice="content"><h1 data-ice="title">sincding/src/index.js</h1>
+<pre class="source-code line-number raw-source-code"><code class="prettyprint linenums" data-ice="content">#!/usr/bin/env node
+const prompt = require(&quot;prompt&quot;)
+const fs = require(&quot;fs&quot;)
+const os = require(&quot;os&quot;)
+const updateNotifier = require(&quot;update-notifier&quot;)
+const pkg = require(&quot;../package.json&quot;)
+const Session = require(&quot;../lib/session&quot;)
+const siding = require(&quot;../lib/siding&quot;)
+const error = require(&quot;../lib/error&quot;)
+const wait = require(&quot;../lib/wait&quot;)
+const log = require(&quot;./log&quot;)
+
+prompt.colors = false
+
+const userDataFolder = `${os.homedir()}/.sincding`
+
+const data = (data = {}) =&gt; {
+  console.log(&quot;Let&apos;s update your user data&quot;)
+  if (data.username) {
+    console.log(
+      &quot; For each prompt the value in () is the current one\n Press enter if you don&apos;t want to change it&quot;
+    )
+  }
+  const schema = {
+    properties: {
+      username: {
+        pattern: /^[a-zA-Z\d]+$/,
+        message: &quot;Username without @uc&quot;,
+        required: true,
+        default: data.username || &quot;&quot;,
+      },
+      password: {
+        required: true,
+        hidden: true,
+        replace: &quot;*&quot;,
+      },
+      path: {
+        required: true,
+        default: data.path || &quot;&quot;,
+        conform: path =&gt; {
+          if (!fs.existsSync(path)) {
+            console.log(&quot;The provided path doesn&apos;t exist&quot;)
+            return false
+          }
+          return true
+        },
+      },
+      ignore: {
+        pattern: /^[a-zA-Z\d ]+$/,
+        message: &quot;Course acronyms separated by a space&quot;,
+        default: (data.ignore || []).join(&quot; &quot;),
+      },
+    },
+  }
+  prompt.start()
+  const saveData = (err, result) =&gt; {
+    if (!result) {
+      return exit()
+    }
+    const data = Object.assign({}, result, {
+      ignore: result.ignore.split(&quot; &quot;).map(a =&gt; a.toUpperCase()),
+    })
+    if (!fs.existsSync(`${userDataFolder}`)) {
+      fs.mkdirSync(`${userDataFolder}`)
+    }
+    const path = `${userDataFolder}/data.json`
+    const dataJson = JSON.stringify(data)
+    fs.writeFile(path, dataJson, &quot;utf8&quot;, run)
+    console.log(&quot;Updated user data&quot;)
+  }
+  prompt.get(schema, saveData)
+}
+
+const sync = async data =&gt; {
+  const session = new Session(data.username, data.password)
+  try {
+    const courses = await siding.coursesList(session, data.ignore)
+    log.coursesFound(courses)
+    await Promise.all(courses.map(course =&gt; course.scrap()))
+    const downloads = courses.map(c =&gt; ({
+      name: c.fullName(),
+      folders: Object.keys(c.folders)
+        .filter(id =&gt; c.folders[id].shouldCreate(data.path))
+        .map(id =&gt; c.folders[id]),
+      foldersAll: Object.keys(c.folders),
+      files: Object.keys(c.files)
+        .filter(id =&gt; c.files[id].shouldDownload(data.path))
+        .map(id =&gt; c.files[id]),
+      filesAll: Object.keys(c.files),
+    }))
+    log.downloadPreview(downloads)
+
+    console.log(&quot;\nCreating missing folders...&quot;)
+    courses.forEach(course =&gt; course.createFolder(data.path))
+    downloads.forEach(d =&gt; d.folders.forEach(f =&gt; f.create(data.path)))
+
+    console.log(&quot;\nStarting downloads, this may take a while...&quot;)
+    const files = downloads
+      .map(download =&gt; download.files)
+      .reduce((total, arr) =&gt; total.concat(arr), [])
+    wait()
+    await files.reduce(async (promise, file, i) =&gt; {
+      await promise
+      return file.download(data.path, i + 1, files.length)
+    }, Promise.resolve())
+    console.log(&quot;\nFinished downloading!&quot;)
+  } catch (err) {
+    error(err.message, &quot;sync&quot;)
+  }
+}
+
+const loadUserData = () =&gt; {
+  let userData = null
+  try {
+    userData = JSON.parse(
+      fs.readFileSync(`${userDataFolder}/data.json`, &quot;utf8&quot;)
+    )
+  } catch (err) {
+    console.error(&quot;Could&apos;t load user data&quot;)
+  }
+  return userData
+}
+
+const run = async () =&gt; {
+  console.log(&quot;&quot;)
+  // Load user data
+  const userData = loadUserData()
+  if (!userData) {
+    return data()
+  }
+  log.logUser(userData)
+  // If a command was supplied in the call, execute it
+  const command = process.argv[2]
+  if (command) {
+    process.argv[2] = &quot;&quot;
+    return runCommand(userData, command)
+  }
+  // Show available commands
+  console.log(&quot;Commands:&quot;)
+  Object.keys(options).forEach(key =&gt; {
+    console.log(` - ${key}: ${optionsDescriptions[key]}`)
+  })
+  // Prompt user for command
+  prompt.start()
+  prompt.get([&quot;command&quot;], (err, result) =&gt;
+    runCommand(userData, (result || {}).command, err)
+  )
+}
+
+const runCommand = (userData, command, err) =&gt; {
+  if (err) {
+    return options.exit()
+  }
+  const action = options[command]
+  if (!action) {
+    console.log(&quot;Not a valid command&quot;)
+    return run()
+  }
+  // Execute selected command
+  console.log(`Executing &apos;${command}&apos; command`)
+  action(userData)
+}
+
+const exit = () =&gt; console.log(&quot;\nTerminated sincding&quot;)
+
+const options = {
+  data: data,
+  sync: sync,
+  exit: exit,
+}
+
+const optionsDescriptions = {
+  data: &quot;Update your user data&quot;,
+  sync: &quot;Download sincding files&quot;,
+  exit: &quot;Exit sincding&quot;,
+}
+
+const updateCheckInterval = 1000 * 30
+updateNotifier({ pkg, updateCheckInterval }).notify() // 30 second
+console.log(&quot;Welcome to sincding!&quot;)
+console.log(`Version ${pkg.version}`)
+run()
+</code></pre>
+
+</div>
+
+<footer class="footer">
+  Generated by <a href="https://esdoc.org">ESDoc<span data-ice="esdocVersion">(1.0.1)</span><img src="./image/esdoc-logo-mini-black.png"></a>
+</footer>
+
+<script src="script/search_index.js"></script>
+<script src="script/search.js"></script>
+<script src="script/pretty-print.js"></script>
+<script src="script/inherited-summary.js"></script>
+<script src="script/test-summary.js"></script>
+<script src="script/inner-link.js"></script>
+<script src="script/patch-for-local.js"></script>
+</body>
+</html>
