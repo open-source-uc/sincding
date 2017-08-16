@@ -11,7 +11,7 @@
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
     "test": "jest",
-    "test:watch": "jest --notify --watch",
+    "test:coverage": "jest --coverage",
     "lint": "eslint ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh"
   },
@@ -33,7 +33,8 @@
     "sincding": "src/index.js"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverageFrom": ["lib/**/*.js", "src/**/*.js", "!**/node_modules/**"]
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
