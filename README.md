@@ -105,4 +105,4 @@ Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/d
 [codeissuesB]:https://img.shields.io/codeclimate/issues/github/open-source-uc/sincding.svg
 
 [docsL]:./docs
-[docsB]:./docs/badge.svg
+[docsB]:https://github.com/open-source-uc/sincding/blob/dev/docs/badge.svg

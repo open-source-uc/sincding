@@ -1,0 +1,9 @@
+ratings:
+  paths:
+  - src/**
+  - lib/**
+  - "**.js"
+
+exclude_paths:
+- node_modules/**/*
+- docs/**/*
