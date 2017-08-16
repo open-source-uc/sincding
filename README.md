@@ -8,7 +8,6 @@
 
 [![codebeat badge](https://codebeat.co/badges/ae759384-0958-4133-a4cc-6edff513112c)](https://codebeat.co/projects/github-com-open-source-uc-sincding-dev)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/60a4b7c93d634c0bb99001c5021020cf)](https://www.codacy.com/app/negebauer/sincding?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=open-source-uc/sincding&amp;utm_campaign=Badge_Grade)
-[![BCH compliance](https://bettercodehub.com/edge/badge/open-source-uc/sincding?branch=dev)](https://bettercodehub.com/)
 [![Code Climate](https://codeclimate.com/github/open-source-uc/sincding/badges/gpa.svg)](https://codeclimate.com/github/open-source-uc/sincding)
 [![Test Coverage](https://codeclimate.com/github/open-source-uc/sincding/badges/coverage.svg)](https://codeclimate.com/github/open-source-uc/sincding/coverage)
 [![Issue Count](https://codeclimate.com/github/open-source-uc/sincding/badges/issue_count.svg)](https://codeclimate.com/github/open-source-uc/sincding)
