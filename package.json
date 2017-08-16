@@ -13,7 +13,9 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint ./src ./lib ./index.js",
-    "deploy": "./scripts/deploy.sh"
+    "deploy": "./scripts/deploy.sh",
+    "docs": "esdoc",
+    "docs:view": "open ./docs/index.html"
   },
   "author": {
     "name": "Nicolas Gebauer",
@@ -34,11 +36,15 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "collectCoverageFrom": ["lib/**/*.js"],
+    "collectCoverageFrom": [
+      "lib/**/*.js"
+    ],
     "coverageDirectory": "coverage"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
+    "esdoc": "^1.0.1",
+    "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^4.1.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-babel": "^4.1.1",
