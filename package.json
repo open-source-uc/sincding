@@ -15,7 +15,8 @@
     "lint": "eslint ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh",
     "docs": "esdoc",
-    "docs:view": "open ./docs/index.html"
+    "docs:view": "open ./docs/index.html",
+    "docs:publish": "docs ; git add ./docs ; git commit -m 'Docs' ; git push"
   },
   "author": {
     "name": "Nicolas Gebauer",
