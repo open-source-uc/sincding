@@ -1,11 +1,14 @@
 machine:
   node:
     version: 7.10.0
+  environment:
+    CODECLIMATE_REPO_TOKEN: b7027884e6eb3d094fa9a345ff98a4a42c8f97425906051a53ea7e8cb63197f6
 
 dependencies:
   pre:
     # - npm install -g pkg
     - npm i -g yarn
+    - npm install -g codeclimate-test-reporter
     - yarn global add greenkeeper-lockfile
   cache_directories:
     - node_modules
@@ -22,6 +25,7 @@ test:
   post:
     - greenkeeper-lockfile-upload
     - cp -r ./coverage $CIRCLE_ARTIFACTS/coverage
+    - codeclimate-test-reporter < ./coverage/lcov.info
     # - pkg package.json --out-dir $CIRCLE_ARTIFACTS
     # - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
 

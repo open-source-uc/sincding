@@ -34,7 +34,7 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "collectCoverageFrom": ["lib/**/*.js", "src/**/*.js", "!**/node_modules/**"],
+    "collectCoverageFrom": ["lib/**/*.js"],
     "coverageDirectory": "coverage"
   },
   "devDependencies": {
