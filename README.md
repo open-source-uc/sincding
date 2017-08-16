@@ -108,4 +108,4 @@ Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/d
 [coverageB]:https://codeclimate.com/github/open-source-uc/sincding/badges/coverage.svg
 
 [codeissuesL]:https://codeclimate.com/github/open-source-uc/sincding
-[codeissuesB]:https://codeclimate.com/github/open-source-uc/sincding/badges/issue_count.svg
+[codeissuesB]:https://img.shields.io/codeclimate/issues/github/open-source-uc/sincding.svg
