@@ -23,10 +23,8 @@ npm install -g sincding
 
 And then just run
 ```bash
-# Run full program
-sincding
-# Update files quickly
-sincding sync
+sincding        # Run full program
+sincding sync   # Update files quickly
 ```
 
 On the first run you will be prompted for credentials
@@ -47,12 +45,9 @@ Let's see it in action
 
 Follow this script
 ```bash
-# Clone the repo
-git clone https://github.com/open-source-uc/sincding.git
-# Cd into directory
-cd sincding
-# Install dependencies
-yarn
+git clone https://github.com/open-source-uc/sincding.git # Clone the repo
+cd sincding     # Cd into directory
+yarn            # Install dependencies
 ```
 
 Run tests
@@ -62,12 +57,10 @@ yarn test
 
 Run program
 ```bash
-# Run from project folder
-yarn start
+yarn start    # Run from project folder
 
-# Link it to run it from everywhere
-npm link
-sincding
+npm link      # Link it
+sincding      # Run from anywhere
 ```
 
 ### Tests
