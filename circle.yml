@@ -21,7 +21,7 @@ test:
     - yarn test:coverage
   post:
     - greenkeeper-lockfile-upload
-    - ditto ./coverage $CIRCLE_ARTIFACTS/coverage
+    - cp -r ./coverage $CIRCLE_ARTIFACTS/coverage
     # - pkg package.json --out-dir $CIRCLE_ARTIFACTS
     # - for executable in $(ls $CIRCLE_ARTIFACTS); do chmod +x "$CIRCLE_ARTIFACTS/$executable"; done
 
