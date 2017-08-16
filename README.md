@@ -1,16 +1,15 @@
 # Sincding
 
-[![CircleCI](https://circleci.com/gh/open-source-uc/sincding.svg?style=svg)](https://circleci.com/gh/open-source-uc/sincding)
-[![npm version](https://badge.fury.io/js/sincding.svg)](https://badge.fury.io/js/sincding)
-[![tested with jest](https://img.shields.io/badge/tested_with-jest-99424f.svg)](https://github.com/facebook/jest)
-[![dependencies](https://david-dm.org/open-source-uc/sincding.svg)](https://david-dm.org/open-source-uc/sincding)
-[![Greenkeeper badge](https://badges.greenkeeper.io/open-source-uc/sincding.svg)](https://greenkeeper.io/)
+[![circleciB]][circleciL]
+[![npmVersionB]][npmVersionL]
+[![npmDownloadsB]][npmDownloadsL]
+[![dependenciesB]][dependenciesL]
+[![greenkeeperB]][greenkeeperL]
 
-[![Code Climate](https://codeclimate.com/github/open-source-uc/sincding/badges/gpa.svg)](https://codeclimate.com/github/open-source-uc/sincding)
-[![Test Coverage](https://codeclimate.com/github/open-source-uc/sincding/badges/coverage.svg)](https://codeclimate.com/github/open-source-uc/sincding/coverage)
-[![Issue Count](https://codeclimate.com/github/open-source-uc/sincding/badges/issue_count.svg)](https://codeclimate.com/github/open-source-uc/sincding)
-
-Sincding allows you to download the files from uc siding in an easy way
+[![codeclimateB]][codeclimateL]
+[![coverageB]][coverageL]
+[![codeissuesB]][codeissuesL]
+[![styleB]][styleL]
 
 **If you aren't familiar with CLI** (command line interface) programs you should check the [video tutorial](https://github.com/open-source-uc/sincding/blob/assets/tutorial.mp4).  
 If you are, just keep reading.
@@ -82,3 +81,31 @@ In order for tests to pass you must create a `.env.json` file in `./__tests__` l
 ```
 
 Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/dev/CONTRIBUTING.md)
+
+<!-- Badges -->
+[circleciL]:https://circleci.com/gh/open-source-uc/sincding
+[circleciB]:https://circleci.com/gh/open-source-uc/sincding.svg?style=svg
+
+[npmDownloadsL]:https://www.npmjs.com/package/sincding
+[npmDownloadsB]:https://img.shields.io/npm/dt/sincding.svg
+
+[npmVersionL]:https://www.npmjs.com/package/sincding
+[npmVersionB]:https://img.shields.io/npm/v/sincding.svg
+
+[dependenciesL]:https://david-dm.org/open-source-uc/sincding
+[dependenciesB]:https://david-dm.org/open-source-uc/sincding.svg
+
+[greenkeeperL]:https://account.greenkeeper.io/account/open-source-uc
+[greenkeeperB]:https://badges.greenkeeper.io/open-source-uc/sincding.svg
+
+[styleL]:https://github.com/prettier/prettier
+[styleB]:https://img.shields.io/badge/code%20style-prettier-brightgreen.svg?style=flat
+
+[codeclimateL]:https://codeclimate.com/github/open-source-uc/sincding
+[codeclimateB]:https://codeclimate.com/github/open-source-uc/sincding/badges/gpa.svg
+
+[coverageL]:https://codeclimate.com/github/open-source-uc/sincding/coverage
+[coverageB]:https://codeclimate.com/github/open-source-uc/sincding/badges/coverage.svg
+
+[codeissuesL]:https://codeclimate.com/github/open-source-uc/sincding
+[codeissuesB]:https://codeclimate.com/github/open-source-uc/sincding/badges/issue_count.svg
