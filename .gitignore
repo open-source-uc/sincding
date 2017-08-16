@@ -1,6 +1,7 @@
 data.json
 *.log
 tmp/
+docs/
 
 # Node gitignore
 # https://github.com/github/gitignore/blob/master/Node.gitignore
@@ -64,3 +65,4 @@ typings/
 # dotenv environment variables file
 .env
 build
+FILENAME
