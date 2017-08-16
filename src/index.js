@@ -62,7 +62,6 @@ const data = (data = {}) => {
       ignore: result.ignore.split(" ").map(a => a.toUpperCase()),
     })
     data['path'] = resolve(data['path'])
-    console.log(data)
     if (!fs.existsSync(`${userDataFolder}`)) {
       fs.mkdirSync(`${userDataFolder}`)
     }
