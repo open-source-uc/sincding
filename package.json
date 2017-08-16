@@ -16,7 +16,7 @@
     "deploy": "./scripts/deploy.sh",
     "docs": "esdoc",
     "docs:view": "open ./docs/index.html",
-    "docs:publish": "docs ; git add ./docs ; git commit -m 'Docs' ; git push"
+    "docs:publish": "yarn docs ; git add ./docs ; git commit -m 'Docs' ; git push"
   },
   "author": {
     "name": "Nicolas Gebauer",
