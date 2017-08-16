@@ -5,6 +5,8 @@ const Session = require("../lib/session")
 // const error = require("../lib/error")
 // const log = require("./log")
 
+process.env.TEST = true
+
 let credentials
 
 beforeAll(() => {
@@ -29,7 +31,15 @@ describe("sincding", () => {
     expect(session.password).toBeTruthy()
   })
 
+  it("fails login", () => {
+    // expect.assertions(1)
+    const invalidSession = new Session("", "")
+    expect(invalidSession.login()).rejects.toBeDefined()
+  })
+
   it("performs login", async () => {
-    await session.login()
+    expect.assertions(1)
+    const s = await session.login()
+    expect(s).toBeTruthy()
   })
 })
