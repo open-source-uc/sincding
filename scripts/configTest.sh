@@ -20,6 +20,4 @@ if [[ $CIRCLECI ]]; then
   echo "}" >> $f
 
   jest
-else
-  jest --notify
 fi

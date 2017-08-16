@@ -10,8 +10,9 @@
   "scripts": {
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
-    "test": "./scripts/test.sh",
-    "lint": "eslint --fix ./src ./lib ./index.js",
+    "test": "jest",
+    "testWatch": "jest --notify --watchAll",
+    "lint": "eslint ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh"
   },
   "author": {

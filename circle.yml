@@ -16,6 +16,7 @@ test:
     - greenkeeper-lockfile-update
     - yarn
     - yarn lint
+    - ./scripts/configTest.sh
   override:
     - yarn test
   post:
