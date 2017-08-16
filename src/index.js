@@ -2,6 +2,7 @@
 const prompt = require("prompt")
 const fs = require("fs")
 const os = require("os")
+const resolve = require('path').resolve
 const updateNotifier = require("update-notifier")
 const pkg = require("../package.json")
 const Session = require("../lib/session")
@@ -60,6 +61,8 @@ const data = (data = {}) => {
     const data = Object.assign({}, result, {
       ignore: result.ignore.split(" ").map(a => a.toUpperCase()),
     })
+    data['path'] = resolve(data['path'])
+    console.log(data)
     if (!fs.existsSync(`${userDataFolder}`)) {
       fs.mkdirSync(`${userDataFolder}`)
     }
