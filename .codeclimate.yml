@@ -1,3 +1,5 @@
+JavaScript: true
+
 ratings:
   paths:
   - src/**
