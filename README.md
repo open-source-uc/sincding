@@ -9,6 +9,7 @@
 [![codeclimateB]][codeclimateL]
 [![coverageB]][coverageL]
 [![codeissuesB]][codeissuesL]
+[![docsB]][docsL]
 [![styleB]][styleL]
 
 **If you aren't familiar with CLI** (command line interface) programs you should check the [video tutorial](https://github.com/open-source-uc/sincding/blob/assets/tutorial.mp4).  
@@ -102,3 +103,6 @@ Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/d
 
 [codeissuesL]:https://codeclimate.com/github/open-source-uc/sincding
 [codeissuesB]:https://img.shields.io/codeclimate/issues/github/open-source-uc/sincding.svg
+
+[docsL]:https://doc.esdoc.org/github.com/open-source-uc/sincding
+[docsB]:./docs/badge.svg
