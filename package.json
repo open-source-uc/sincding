@@ -13,10 +13,7 @@
     "test": "jest",
     "test:coverage": "jest --coverage",
     "lint": "eslint ./src ./lib ./index.js",
-    "deploy": "./scripts/deploy.sh",
-    "docs": "esdoc",
-    "docs:view": "open ./docs/index.html",
-    "docs:publish": "yarn docs ; git add ./docs ; git commit -m 'Docs' ; git push"
+    "deploy": "./scripts/deploy.sh"
   },
   "author": {
     "name": "Nicolas Gebauer",
@@ -44,8 +41,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.1.1",
-    "esdoc": "^1.0.1",
-    "esdoc-standard-plugin": "^1.0.0",
     "eslint": "^4.1.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-babel": "^4.1.1",
