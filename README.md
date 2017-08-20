@@ -5,6 +5,7 @@
 [![npmDownloadsB]][npmDownloadsL]
 [![dependenciesB]][dependenciesL]
 [![greenkeeperB]][greenkeeperL]
+[![contributionsB]][contributionsL]
 
 [![bithoundB]][bithoundL]
 [![codeclimateB]][codeclimateL]
@@ -106,3 +107,6 @@ Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/d
 
 [codeissuesL]:https://codeclimate.com/github/open-source-uc/sincding
 [codeissuesB]:https://img.shields.io/codeclimate/issues/github/open-source-uc/sincding.svg
+
+[contributionsL]:https://github.com/open-source-uc/sincding/issues
+[contributionsB]:https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
