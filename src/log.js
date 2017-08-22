@@ -7,7 +7,7 @@ const coursesFound = courses => {
 
 const downloadPreview = downloads => {
   const preview = new Table({
-    head: ["Course", "Files", "Files"],
+    head: ["Course", "Files", "Folders"],
   })
   downloads.forEach(d => {
     preview.push([
