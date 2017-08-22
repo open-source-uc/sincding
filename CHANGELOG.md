@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Security
 -->
 
+## [1.2.9] - 2017-08-22
+### Added
+- Docs badge [@negebauer]
+- CI coverage [@negebauer]
+
+### Changed
+- Loging [@negebauer]
+
 ## [1.2.8] - 2017-08-10
 ### Fix
 - Only log folder on creation [@negebauer]
@@ -126,7 +134,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Main app [@negebauer]
 - Yarn support [@mrpatiwi]
 
-[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.8...HEAD
+[Unreleased]: https://github.com/open-source-uc/sincding/compare/v1.2.9...HEAD
+[1.2.9]: https://github.com/open-source-uc/sincding/compare/v1.2.8...v1.2.9
 [1.2.8]: https://github.com/open-source-uc/sincding/compare/v1.2.7...v1.2.8
 [1.2.7]: https://github.com/open-source-uc/sincding/compare/v1.2.6...v1.2.7
 [1.2.6]: https://github.com/open-source-uc/sincding/compare/v1.2.5...v1.2.6
