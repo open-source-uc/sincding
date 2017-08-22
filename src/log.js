@@ -25,7 +25,6 @@ const logUser = userData => {
   console.log(`user: ${userData.username}`)
   console.log(`path: ${userData.path}`)
   console.log(`ignore: ${(userData.ignore || []).join(" ")}`)
-  console.log("")
 }
 
 module.exports = { coursesFound, downloadPreview, logUser }

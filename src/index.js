@@ -136,7 +136,7 @@ const run = async () => {
     return runCommand(userData, command)
   }
   // Show available commands
-  console.log("Commands:")
+  console.log("\nCommands:")
   Object.keys(options).forEach(key => {
     console.log(` - ${key}: ${optionsDescriptions[key]}`)
   })
@@ -153,11 +153,11 @@ const runCommand = (userData, command, err) => {
   }
   const action = options[command]
   if (!action) {
-    console.log("Not a valid command")
+    console.log("Not a valid command\n")
     return run()
   }
   // Execute selected command
-  console.log(`Executing '${command}' command`)
+  console.log(`Executing '${command}' command\n`)
   action(userData)
 }
 
