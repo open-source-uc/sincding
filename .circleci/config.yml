@@ -31,9 +31,9 @@ jobs:
       - attach_workspace:
           at: ./
       - run: bash scripts/configTest.sh
-      - run: npm install -g codeclimate-test-reporter
+      - run: sudo npm install -g codeclimate-test-reporter
       - run: yarn test:ci
-      - run: codeclimate-test-reporter < ./coverage/lcov.info
+      - run: sudo codeclimate-test-reporter < ./coverage/lcov.info
       - store_test_results:
           path: ./coverage
       - store_artifacts:
