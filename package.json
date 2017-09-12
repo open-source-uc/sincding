@@ -40,7 +40,7 @@
     "coverageDirectory": "coverage"
   },
   "devDependencies": {
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^8.0.0",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.0",
     "eslint-config-prettier": "^2.3.0",
