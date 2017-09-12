@@ -10,8 +10,9 @@
   "scripts": {
     "start": "node src/index.js",
     "sync": "node src/index.js sync",
-    "test": "jest",
+    "test": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:ci": "jest --coverage --testResultsProcessor=jest-junit",
     "lint": "eslint ./src ./lib ./index.js",
     "deploy": "./scripts/deploy.sh"
   },
@@ -48,6 +49,7 @@
     "eslint-plugin-node": "^5.0.0",
     "eslint-plugin-prettier": "^2.1.2",
     "jest": "^21.0.2",
+    "jest-junit": "^3.0.0",
     "prettier": "^1.5.3"
   }
 }

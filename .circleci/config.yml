@@ -1,0 +1,80 @@
+defaults: &defaults
+  working_directory: ~/web
+  docker:
+    - image: circleci/node:8.4
+      environment:
+        CODECLIMATE_REPO_TOKEN: b7027884e6eb3d094fa9a345ff98a4a42c8f97425906051a53ea7e8cb63197f6
+
+version: 2
+jobs:
+  dependencies:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-cache-{{ checksum "package.json" }}
+          - v1-cache-
+      - run: yarn
+      - save_cache:
+          paths:
+            - node_modules
+            - yarn.lock
+          key: v1-cache-{{ checksum "package.json" }}
+      - persist_to_workspace:
+          root: ./
+          paths:
+            - ./
+  test:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - run: bash scripts/configTest.sh
+      - run: npm install -g codeclimate-test-reporter
+      - run: yarn test:ci
+      - run: codeclimate-test-reporter < ./coverage/lcov.info
+      - store_test_results:
+          path: ./coverage
+      - store_artifacts:
+          path: ./coverage/junit.xml
+          destination: junit/junit.xml
+      - store_artifacts:
+          path: ./coverage/lcov-report
+          destination: coverage
+  lint:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - run: yarn lint
+  greenkeeper:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ./
+      - run: npm install -g greenkeeper-lockfile
+      - run: greenkeeper-lockfile-update
+      - run: greenkeeper-lockfile-upload
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: bash .circleci/env.sh
+      - run: cat .env
+      - run: echo 'DEPLOY_NOT_IMPLEMENTED'
+
+workflows:
+  version: 2
+  workflow:
+      jobs:
+        - dependencies
+        - test:
+            requires:
+              - dependencies
+        - lint:
+            requires:
+              - dependencies
+        - greenkeeper:
+            requires:
+              - dependencies
