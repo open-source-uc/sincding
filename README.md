@@ -5,9 +5,7 @@
 [![npmDownloadsB]][npmDownloadsL]
 [![dependenciesB]][dependenciesL]
 [![greenkeeperB]][greenkeeperL]
-[![contributionsB]][contributionsL]
 
-[![bithoundB]][bithoundL]
 [![codeclimateB]][codeclimateL]
 [![coverageB]][coverageL]
 [![codeissuesB]][codeissuesL]
@@ -97,9 +95,6 @@ Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/d
 [styleL]:https://github.com/prettier/prettier
 [styleB]:https://img.shields.io/badge/code%20style-prettier-brightgreen.svg?style=flat
 
-[bithoundL]:https://www.bithound.io/github/open-source-uc/sincding
-[bithoundB]:https://www.bithound.io/github/open-source-uc/sincding/badges/score.svg
-
 [codeclimateL]:https://codeclimate.com/github/open-source-uc/sincding
 [codeclimateB]:https://codeclimate.com/github/open-source-uc/sincding/badges/gpa.svg
 
@@ -111,6 +106,3 @@ Check the [contributing guide](https://github.com/open-source-uc/sincding/blob/d
 
 [doccoverageL]:http://inch-ci.org/github/open-source-uc/sincding
 [doccoverageB]:http://inch-ci.org/github/open-source-uc/sincding.svg?branch=master
-
-[contributionsL]:https://github.com/open-source-uc/sincding/issues
-[contributionsB]:https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat
