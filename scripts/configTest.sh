@@ -18,6 +18,4 @@ if [[ $CIRCLECI ]]; then
   keyVal "username" $UC_USERNAME
   keyVal "password" $UC_PASSWORD 0
   echo "}" >> $f
-
-  jest
 fi
