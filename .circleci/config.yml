@@ -2,8 +2,6 @@ defaults: &defaults
   working_directory: ~/web
   docker:
     - image: circleci/node:8.4
-      environment:
-        CODECLIMATE_REPO_TOKEN: b7027884e6eb3d094fa9a345ff98a4a42c8f97425906051a53ea7e8cb63197f6
 
 version: 2
 jobs:
