@@ -33,13 +33,6 @@
   "bin": {
     "sincding": "src/index.js"
   },
-  "jest": {
-    "testEnvironment": "node",
-    "collectCoverageFrom": [
-      "lib/**/*.js"
-    ],
-    "coverageDirectory": "coverage"
-  },
   "devDependencies": {
     "babel-eslint": "^8.0.0",
     "coveralls": "^2.13.1",
@@ -51,5 +44,18 @@
     "jest": "^21.0.2",
     "jest-junit": "^3.0.0",
     "prettier": "^1.5.3"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx}",
+      "!<rootDir>/node_modules/",
+      "!src/index.js"
+    ]
+  },
+  "jest-junit": {
+    "output": "./coverage/junit.xml",
+    "usePathForSuiteName": "true",
+    "classNameTemplate": "",
+    "titleTemplate": "{title}"
   }
 }
