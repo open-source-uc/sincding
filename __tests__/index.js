@@ -37,9 +37,9 @@ describe("sincding", () => {
     expect(invalidSession.login()).rejects.toBeDefined()
   })
 
-  it("performs login", async () => {
-    expect.assertions(1)
-    const s = await session.login()
-    expect(s).toBeTruthy()
-  })
+  // it("performs login", async () => {
+  //   expect.assertions(1)
+  //   const s = await session.login()
+  //   expect(s).toBeTruthy()
+  // })
 })
