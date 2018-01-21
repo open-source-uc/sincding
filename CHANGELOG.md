@@ -44,11 +44,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.2.4] - 2017-08-09
 ### Changed
-- Up wait time on folder scrap [@negebauer]
+- Up wait time on folder scrape [@negebauer]
 - Wait before starting downloads [@negebauer]
 
 ### Fixed
-- Retry folder scrap logic [@negebauer]
+- Retry folder scrape logic [@negebauer]
 
 ## [1.2.3] - 2017-08-03
 ### Added
