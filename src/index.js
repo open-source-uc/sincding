@@ -74,7 +74,7 @@ const data = (data = {}) => {
 const sync = async data => {
   const session = new Session(data.username, data.password)
   try {
-    const courses = await siding.coursesList(session, data.ignore)
+    const courses = await siding.currentCoursesList(session, data.ignore)
     log.coursesFound(courses)
     await Promise.all(courses.map(course => course.scrap()))
     const downloads = courses.map(c => ({
