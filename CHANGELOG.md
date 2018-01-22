@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Security
 -->
+### Added
+- Collect courses from catalog [@figarrido]
+
+### Changed
+- Update current courses url [@figarrido]
+- Fix typos [@figarrido]
 
 ## [1.2.9] - 2017-08-22
 ### Added
@@ -165,6 +171,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [@aaossa]:https://github.com/aaossa
 [@aaossa]
+
+[@figarrido]:https://github.com/figarrido
+[@figarrido]
 
 ## Contributing
 
