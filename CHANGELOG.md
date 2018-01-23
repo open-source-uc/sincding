@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 ### Security
 -->
+### Added
+- Collect courses from catalog [@figarrido]
+
+### Changed
+- Update current courses url [@figarrido]
+- Fix typos [@figarrido]
 
 ## [1.2.9] - 2017-08-22
 ### Added
@@ -44,11 +50,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.2.4] - 2017-08-09
 ### Changed
-- Up wait time on folder scrap [@negebauer]
+- Up wait time on folder scrape [@negebauer]
 - Wait before starting downloads [@negebauer]
 
 ### Fixed
-- Retry folder scrap logic [@negebauer]
+- Retry folder scrape logic [@negebauer]
 
 ## [1.2.3] - 2017-08-03
 ### Added
@@ -165,6 +171,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 [@aaossa]:https://github.com/aaossa
 [@aaossa]
+
+[@figarrido]:https://github.com/figarrido
+[@figarrido]
 
 ## Contributing
 
