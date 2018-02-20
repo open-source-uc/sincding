@@ -22,7 +22,7 @@
     "url": "http://negebauer.github.io"
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.18.0",
     "cheerio": "^0.22.0",
     "cli-table": "^0.3.1",
     "iconv-lite": "^0.4.15",
