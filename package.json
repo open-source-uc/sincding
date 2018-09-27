@@ -34,7 +34,7 @@
     "sincding": "src/index.js"
   },
   "devDependencies": {
-    "babel-eslint": "^8.0.0",
+    "babel-eslint": "^10.0.1",
     "coveralls": "^2.13.1",
     "eslint": "^4.1.0",
     "eslint-config-prettier": "^2.3.0",
