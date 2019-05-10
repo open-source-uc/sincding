@@ -28,7 +28,7 @@
     "iconv-lite": "^0.4.15",
     "prompt": "^1.0.0",
     "request": "^2.81.0",
-    "update-notifier": "^2.1.0"
+    "update-notifier": "2.5.0"
   },
   "bin": {
     "sincding": "src/index.js"
