@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.0",
-    "coveralls": "^2.13.1",
+    "coveralls": "^3.0.4",
     "eslint": "^4.1.0",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-babel": "^4.1.1",
